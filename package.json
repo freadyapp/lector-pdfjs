@@ -1,0 +1,34 @@
+{
+  "name": "lector-pdfjs",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "rollup": "^2.41.0",
+    "rollup-plugin-execute": "^1.1.1",
+    "rollup-plugin-sizes": "^1.0.3",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-visualizer": "^4.2.0"
+  },
+  "source": "src/index.js",
+  "main": "dist/lectorPdf.cjs.js",
+  "module": "dist/lectorPdf.esm.js",
+  "browser": "dist/lectorPdf.umd.js",
+  "files": [
+    "dist/"
+  ],
+
+  "keywords": [
+    "lector",
+    "npm",
+    "package",
+    "fready"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "pretest": "yarn build",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "dev": "rollup -c -w"
+  }
+}
