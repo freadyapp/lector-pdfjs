@@ -17,7 +17,6 @@
   "files": [
     "dist/"
   ],
-
   "keywords": [
     "lector",
     "npm",
@@ -30,5 +29,10 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "dev": "rollup -c -w"
+  },
+  "dependencies": {
+    "lectorjs": "^0.4.1-b",
+    "mousetrap": "^1.6.5",
+    "pragmajs": "latest"
   }
 }

@@ -138,6 +138,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"animejs@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "animejs@npm:3.2.1"
+  checksum: 01f2d38c69a9001b78a3f2b3c16d4db5481b6e0861bd05d590b23d13f69e7853dfdd299ff79cb7ef9d20172619f122738f6e1ea97f763be5fee3c8fb1e9154b5
+  languageName: node
+  linkType: hard
+
 "ansi-regex@npm:^2.0.0":
   version: 2.1.1
   resolution: "ansi-regex@npm:2.1.1"
@@ -369,6 +376,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"compromise@npm:^13.7.0":
+  version: 13.10.1
+  resolution: "compromise@npm:13.10.1"
+  dependencies:
+    efrt-unpack: 2.2.0
+  checksum: 515cf655a99d3ab4dbc50507dded6da45ce4ebd0b1fb82ce1dcc9a08f1cc6d28bc29f363a2500fefd7dcf72d0c1bafcb91ae6e0e7e9d323e20a801788a333193
+  languageName: node
+  linkType: hard
+
 "concat-map@npm:0.0.1":
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
@@ -427,6 +443,13 @@ __metadata:
     jsbn: ~0.1.0
     safer-buffer: ^2.1.0
   checksum: 5b4dd05f24b2b94c1bb882488dba2b878bb5b83182669aa71fbdf53c6941618180cb226c4eb9a3e2fa51ad11f87b5edb0a7d7289cdef468ba2e6024542f73f07
+  languageName: node
+  linkType: hard
+
+"efrt-unpack@npm:2.2.0":
+  version: 2.2.0
+  resolution: "efrt-unpack@npm:2.2.0"
+  checksum: d72dfe73beb43a960f29af1bee5dd1fa73ea5713a5b86a2d102eb9d7e976f253fbbcfef45dac4eeb6fa33fb81b47b12641175399ed1e004fa9a356db6b069859
   languageName: node
   linkType: hard
 
@@ -860,6 +883,9 @@ fsevents@~2.3.1:
     "@rollup/plugin-commonjs": ^17.0.0
     "@rollup/plugin-json": ^4.1.0
     "@rollup/plugin-node-resolve": ^11.0.1
+    lectorjs: ^0.4.1-b
+    mousetrap: ^1.6.5
+    pragmajs: latest
     rollup: ^2.41.0
     rollup-plugin-execute: ^1.1.1
     rollup-plugin-sizes: ^1.0.3
@@ -867,6 +893,18 @@ fsevents@~2.3.1:
     rollup-plugin-visualizer: ^4.2.0
   languageName: unknown
   linkType: soft
+
+"lectorjs@npm:^0.4.1-b":
+  version: 0.4.1
+  resolution: "lectorjs@npm:0.4.1"
+  dependencies:
+    animejs: ^3.2.1
+    compromise: ^13.7.0
+    mousetrap: ^1.6.5
+    pragmajs: latest
+  checksum: 4ef08a57ca5c5bbe721edace736cdeb777a54f2ea1ad39e273a8f02aab07977ce3f2ced559babb1a1fb076545d136e804b6599be0d290161524d68b9d65aa36f
+  languageName: node
+  linkType: hard
 
 "lru-cache@npm:^6.0.0":
   version: 6.0.0
@@ -950,6 +988,13 @@ fsevents@~2.3.1:
   version: 1.0.3
   resolution: "module-details-from-path@npm:1.0.3"
   checksum: bf25f3d009ccb56ff2de6e42fd81ee109c839a1bd44a07050087fb6c61c14b9dd471310cc0e77f4f4ed655bfbd7ce9349a2e090f5f40b73e3dfc3e3f445fa159
+  languageName: node
+  linkType: hard
+
+"mousetrap@npm:^1.6.5":
+  version: 1.6.5
+  resolution: "mousetrap@npm:1.6.5"
+  checksum: 563074169163708e2de0c2e9a2bd76f32ba909efbe2baf395db08015d09b19445b859982fad36cd50dcd8a2475f07af89babe2b3da029e7b5cd48e26ff973cd5
   languageName: node
   linkType: hard
 
@@ -1070,6 +1115,13 @@ fsevents@~2.3.1:
   version: 2.2.2
   resolution: "picomatch@npm:2.2.2"
   checksum: 20fa75e0a58b39d83425b3db68744d5f6f361fd4fd66ec7745d884036d502abba0d553a637703af79939b844164b13e60eea339ccb043d7fbd74c3da2592b864
+  languageName: node
+  linkType: hard
+
+"pragmajs@npm:latest":
+  version: 0.6.2-a
+  resolution: "pragmajs@npm:0.6.2-a"
+  checksum: d5b7b790617848c0f3aa6ab45c64a1da0ba8766347977ac5fdaf9523690a3c6890fa3ae714d6ca43cc8be4472ba5989077fc3c4645f472fa7d634c328c641600
   languageName: node
   linkType: hard
 

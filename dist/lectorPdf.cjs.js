@@ -2,6 +2,14 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+var lectorjs = require('lectorjs');
+var pragmajs = require('pragmajs');
+var Mousetrap = require('mousetrap');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var Mousetrap__default = /*#__PURE__*/_interopDefaultLegacy(Mousetrap);
+
 /**
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
@@ -15116,6 +15124,62 @@ undefined(url).promise
 });
 
 
+
+function wfyInner(desc) {
+    if (!desc) return false
+    desc = pragmajs._e(desc);
+    let txt = desc.textContent;
+    if (txt.length === 0) return false
+
+    let inner = "";
+    for (let txt of desc.textContent.split(" ")) {
+        // console.log(txt)
+        let noWhiteSpace = txt.replace(/\s/g, "");
+        inner += noWhiteSpace.length != 0 ? "<w>" + txt.split(" ").join("</w> <w>") + "</w> " : txt;
+    }
+
+    desc.html(inner);
+}
+
+function wfyElement(element) {
+    element = pragmajs._e(element);
+    let nodes = element.findAll("*");
+    if (nodes.length == 0) return wfyInner(element)
+    nodes.forEach(desc => wfyElement(desc));
+}
+
+//export function wfy(element) {
+    //// console.log(`wfying ${JSON.stringify(element)}`)
+    //element = _e(element)
+    //// if (element.textContent.replaceAll(" ", "").length<1) return false
+    //let txtNodes = element.findAll("*")
+    //if (txtNodes.length == 0) return wfyElement(element)
+    //// txtNodes.each((i, el) => {
+    ////   wfy(el)
+    //// })
+    //txtNodes.forEach(el => wfy(el))
+    //return true
+//}
+console.log(Mousetrap__default['default']);
+
+
+setTimeout(() => {
+    console.log('new lector');
+    pragmajs._e('body').findAll('.textLayer').forEach(textLayer => wfyElement(textLayer));
+    
+    let lector = lectorjs.Lector("#the-canvas", {
+        wfy: false,
+        settings: true,
+        defaultStyles: true,
+        fullStyles: true
+    });
+    
+
+    Mousetrap__default['default'].bind('space', () => {
+        lector.toggle();
+        return false
+    });
+}, 2000);
 
 
 

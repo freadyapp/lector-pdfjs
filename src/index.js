@@ -1,4 +1,9 @@
 import * as pdf from "./pdfjs/build/pdf"
+import { Lector, helpers } from "lectorjs"
+import { _e } from 'pragmajs'
+
+import Mousetrap from 'mousetrap'
+
 import TextLayerBuilder from "./pdfjs/build/textLayer"
 
 export function yoing(){
@@ -87,6 +92,68 @@ pdf.getDocument(url).promise
 });
 
 
+
+function wfyInner(desc) {
+    if (!desc) return false
+    desc = _e(desc)
+    let txt = desc.textContent
+    if (txt.length === 0) return false
+
+    let inner = ""
+    for (let txt of desc.textContent.split(" ")) {
+        // console.log(txt)
+        let noWhiteSpace = txt.replace(/\s/g, "")
+        inner += noWhiteSpace.length != 0 ? "<w>" + txt.split(" ").join("</w> <w>") + "</w> " : txt
+    }
+
+    desc.html(inner)
+}
+
+function wfyElement(element) {
+    element = _e(element)
+    let nodes = element.findAll("*")
+    if (nodes.length == 0) return wfyInner(element)
+    nodes.forEach(desc => wfyElement(desc))
+}
+
+//export function wfy(element) {
+    //// console.log(`wfying ${JSON.stringify(element)}`)
+    //element = _e(element)
+    //// if (element.textContent.replaceAll(" ", "").length<1) return false
+    //let txtNodes = element.findAll("*")
+    //if (txtNodes.length == 0) return wfyElement(element)
+    //// txtNodes.each((i, el) => {
+    ////   wfy(el)
+    //// })
+    //txtNodes.forEach(el => wfy(el))
+    //return true
+//}
+console.log(Mousetrap)
+
+function wfy(element){
+    element = _e(element)
+    let textNodes = element.findAll('*')
+    console.log(textNodes.length)
+}
+
+
+setTimeout(() => {
+    console.log('new lector')
+    _e('body').findAll('.textLayer').forEach(textLayer => wfyElement(textLayer))
+    
+    let lector = Lector("#the-canvas", {
+        wfy: false,
+        settings: true,
+        defaultStyles: true,
+        fullStyles: true
+    })
+    
+
+    Mousetrap.bind('space', () => {
+        lector.toggle()
+        return false
+    })
+}, 2000)
 
 
 

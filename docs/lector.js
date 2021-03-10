@@ -2,6 +2,8 @@
 // import { Word } from "../src/lector"
 
 lectorPdf.yoing()
+
+pragmaSpace.integrateMousetrap(Mousetrap)
 //lector.globalify()
 
 //function fetchContent(index){
