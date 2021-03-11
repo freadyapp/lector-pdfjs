@@ -4,8 +4,8 @@
   top: 0;
   right: 0;
   bottom: 0;
-  overflow: hidden;
-  opacity: 0.2;
+  /*overflow: hidden;*/
+  opacity: 0.1;
   line-height: 1;
 }
 

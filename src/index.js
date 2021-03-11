@@ -1,95 +1,150 @@
 import * as pdf from "./pdfjs/build/pdf"
 import { Lector, helpers } from "lectorjs"
-import { _e } from 'pragmajs'
+import { _e, _p, Pragma } from 'pragmajs'
 
 import Mousetrap from 'mousetrap'
 
 import TextLayerBuilder from "./pdfjs/build/textLayer"
 
+pdf.GlobalWorkerOptions.workerSrc = '/src/pdfjs/build/pdf.worker.js'
+
 export function yoing(){
     console.log('yoing')
     console.log(pdf)
 }
+
 yoing()
 
-var url = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
+//var url = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
+var url = "/docs/pdfs/dicks.pdf"
 
 // Loaded via <script> tag, create shortcut to access PDF.js exports.
 
 // The workerSrc property shall be specified.
-pdf.GlobalWorkerOptions.workerSrc = '/src/pdfjs/build/pdf.worker.js'
 
-pdf.getDocument(url).promise
+function loadPdf(url){
+    return pdf.getDocument(url).promise
+}
+
+
+let resolution = 4
+let scale = 1
+
+class PDFViewer extends Pragma {
+    constructor(element){
+        super()
+        this.as(element)
+        this.scale = 1
+        
+        this.css(`
+            transform-origin top left
+            transition all .08s ease
+        `
+        )
+    }
+
+    set scale(n){
+        this._scale = Math.min(Math.max(0.3, n), 3)
+        this.scaleTo(this._scale)
+    }
+    
+    get scale(){
+        return this._scale
+    }
+
+    scaleTo(value){
+        this.element.css(`transform scale(${value})`)
+    }
+
+    scaleUp(){
+        this.scale += 0.05
+    }
+    
+    scaleDown(){
+        this.scale -= 0.05
+    }
+}
+
+//var container = _p().as("#the-canvas")
+let container = new PDFViewer("#the-canvas")
+
+
+Mousetrap.bind("o", () => container.scaleUp())
+Mousetrap.bind("shift+o", () => container.scaleDown())
+
+
+loadPdf(url)
   .then(function(pdf) {
 
     // Get div#container and cache it for later use
-    var container = document.getElementById("the-canvas");
+    //container.css(`transform scale(${1/scale})`)
 
     // Loop from 1 to total_number_of_pages in PDF document
-    for (var i = 1; i <= pdf.numPages; i++) {
+    //for (var i = 1; i <= pdf.numPages; i++) {
+    for (var i = 10; i <= 20; i++) {
 
         // Get desired page
         pdf.getPage(i).then(function(page) {
 
-          var scale = 1.5;
-          var viewport = page.getViewport({scale :scale});
-          var div = document.createElement("div");
+        var viewport = page.getViewport({ scale: resolution });
+            console.log('viewport', viewport)
+            //viewport.height /= 5
+            //viewport.width /= 5
+            //
+        var pageDiv = _e(`div.#page-${page._pageIndex+1}`)
+                      .css("position: relative")
+                      .appendTo(container)
 
-          // Set id attribute with page-#{pdf_page_number} format
-          div.setAttribute("id", "page-" + (page.pageIndex + 1));
+        // Create a new Canvas element
+        var canvas = _e("canvas.").appendTo(pageDiv)
 
-          // This will keep positions of child elements as per our needs
-          div.setAttribute("style", "position: relative");
+        var context = canvas.getContext('2d')
 
-          // Append div within div#container
-          container.appendChild(div);
+        canvas.height = viewport.height
+        canvas.width = viewport.width
+            
+        canvas.css(`
+            width ${viewport.width/resolution}px
+            height ${viewport.height/resolution}px
+        `)
 
-          // Create a new Canvas element
-          var canvas = document.createElement("canvas");
-
-          // Append Canvas within div#page-#{pdf_page_number}
-          div.appendChild(canvas);
-
-          var context = canvas.getContext('2d');
-          canvas.height = viewport.height;
-          canvas.width = viewport.width;
-
-          var renderContext = {
-            canvasContext: context,
-            viewport: viewport
-          };
+        var renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        }
 
           // Render PDF page
-            page.render(renderContext).promise.then(function () {
-                // Get text-fragments
-                return page.getTextContent();
+        page.render(renderContext).promise.then(function () {
+            // Get text-fragments
+            return page.getTextContent();
+        }).then(function (textContent) {
+            // Create div which will hold text-fragments
+            var textLayerDiv = _e("div.textLayer#")
+
+            textLayerDiv.css(`
+               transform-origin top left
+               transform scale(${1/resolution})
+            `)
+
+            pageDiv.append(textLayerDiv)
+
+            // Create new instance of TextLayerBuilder class
+            var textLayer = new TextLayerBuilder({
+                textLayerDiv: textLayerDiv,
+                pageIndex: page.pageIndex,
+                viewport: viewport
+            });
+
+            // Set text-fragments
+            textLayer.setTextContent(textContent);
+
+            // Render text-fragments
+            textLayer.render();
+            
             })
-                .then(function (textContent) {
-                    // Create div which will hold text-fragments
-                    var textLayerDiv = document.createElement("div");
-
-                    // Set it's class to textLayer which have required CSS styles
-                    textLayerDiv.setAttribute("class", "textLayer");
-
-                    // Append newly created div in `div#page-#{pdf_page_number}`
-                    div.appendChild(textLayerDiv);
-
-                    // Create new instance of TextLayerBuilder class
-                    var textLayer = new TextLayerBuilder({
-                        textLayerDiv: textLayerDiv,
-                        pageIndex: page.pageIndex,
-                        viewport: viewport
-                    });
-
-                    // Set text-fragments
-                    textLayer.setTextContent(textContent);
-
-                    // Render text-fragments
-                    textLayer.render();
-                });;
-        });
+        })
     }
-});
+})
 
 
 
@@ -129,12 +184,6 @@ function wfyElement(element) {
     //return true
 //}
 console.log(Mousetrap)
-
-function wfy(element){
-    element = _e(element)
-    let textNodes = element.findAll('*')
-    console.log(textNodes.length)
-}
 
 
 setTimeout(() => {
