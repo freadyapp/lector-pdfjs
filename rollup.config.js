@@ -15,7 +15,7 @@ const plugs = [
   visualizer({
     filename: "docs/stats.html",
     title: "LectorJS-pdfjs Visualised",
-    sourcemap: false
+    //sourcemap: true
   })
 ]
 
