@@ -1,7 +1,6 @@
 export { Lector, helpers, Word } from "lectorjs"
 import { _e, _p, Pragma } from 'pragmajs'
 export { PDFViewer } from "./pdfLoader/index"
-
 import Mousetrap from 'mousetrap'
 
 function wfyInner(desc) {
@@ -47,6 +46,7 @@ export function wfy(element){
 
 export * as pragma from "pragmajs"
 export * as lector from "lectorjs"
+export * as utilities from "./utilities"
 
 //var pdfDoc = null,
     //pageNum = 1,

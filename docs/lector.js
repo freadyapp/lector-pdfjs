@@ -21,6 +21,8 @@ viewer.on('load', () => {
   console.log('loaded')
 })
 
+//loader.css('opacity 0')
+
 function fetchContent(pageIndex){
   return new Promise(resolve => resolve(pageIndex))
   // return new Promise(resolve => {
@@ -51,20 +53,25 @@ viewer.on('load', () => {
         from: 'stream',
         as: 'infiniteScroll',
         config: {
-          onPageAdd: (p, index) => {
+          onCreate: (p, index) => {
             //p.css("background lightgray")
             //console.log(p)
+            p.addClass('lector-page', 'loading')
             p.setData({ index: index })
           },
 
           onFetch: (p, index) => {
             console.log('p has been fetched', index)
+            let loader = lectorPdf.utilities.loader(1).appendTo(p)
+            loader.style.opacity = '.5'
+
   //   viewer.createPage(pageIndex).then(page => {
   //     resolve(page.html())
   //   })   
             viewer.createPage(index).then(pdfPage => {
               p.append(pdfPage)
-              p.find(".page-loader").css('opacity 0')
+              loader.destroy()
+              p.removeClass('loading')
             })
             //_e('body').findAll('.textLayer').forEach(textLayer => lectorPdf.wfy(textLayer))
             p.self_activate = function () {
