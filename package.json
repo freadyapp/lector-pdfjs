@@ -31,8 +31,8 @@
     "dev": "rollup -c -w"
   },
   "dependencies": {
-    "lectorjs": "^0.4.1-b",
+    "lectorjs": "latest",
     "mousetrap": "^1.6.5",
-    "pragmajs": "latest"
+    "pragmajs": "^0.7.1"
   }
 }

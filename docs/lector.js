@@ -1,9 +1,127 @@
 // import { Lector } from '../src'
 // import { Word } from "../src/lector"
 
-lectorPdf.yoing()
 
 pragmaSpace.integrateMousetrap(Mousetrap)
+let _e = lectorPdf.pragma._e
+
+lectorPdf.lector.globalify()
+
+console.log(Mousetrap)
+
+let viewer = new lectorPdf.PDFViewer("#the-canvas")
+Mousetrap.bind("o", () => viewer.scaleUp())
+Mousetrap.bind("shift+o", () => viewer.scaleDown())
+
+var url = "/docs/pdfs/dicks.pdf"
+
+viewer.loadFromUrl(url)
+//viewer.render()
+viewer.on('load', () => {
+  console.log('loaded')
+})
+
+function fetchContent(pageIndex){
+  return new Promise(resolve => resolve(pageIndex))
+  // return new Promise(resolve => {
+  //   viewer.createPage(pageIndex).then(page => {
+  //     resolve(page.html())
+  //   })
+  // })
+}
+
+viewer.on('load', () => {
+  console.log('view rendered')
+
+  let settings = {
+      wfy: false,
+
+      fullStyles: true,
+      defaultStyles: true,
+
+      settings: true,
+      experimental: true,
+
+      stream: fetchContent,
+      // function with index as param that
+      // returns the content for the page
+      // can return a promise
+
+      paginate: {
+        from: 'stream',
+        as: 'infiniteScroll',
+        config: {
+          onPageAdd: (p, index) => {
+            //p.css("background lightgray")
+            //console.log(p)
+            p.setData({ index: index })
+          },
+
+          onFetch: (p, index) => {
+            console.log('p has been fetched', index)
+  //   viewer.createPage(pageIndex).then(page => {
+  //     resolve(page.html())
+  //   })   
+            viewer.createPage(index).then(pdfPage => {
+              p.append(pdfPage)
+              p.find(".page-loader").css('opacity 0')
+            })
+            //_e('body').findAll('.textLayer').forEach(textLayer => lectorPdf.wfy(textLayer))
+            p.self_activate = function () {
+              console.log('self activating', p)
+              if (!p.word) {
+                p.findAll('.textLayer').forEach(textLayer => lectorPdf.wfy(textLayer))
+                p.word = lectorPdf.Word(p).setKey(index)
+                //// generate lector for the page
+                //lector.helpers.wfy(p)
+                //p.word = Word(p).setKey(index)
+                p.lec.addWord(p.word)
+                p.word.value = 0
+                console.log("appended new page with key", p.word.key)
+              }
+            }
+
+            p.addEventListener('click', () => p.self_activate())
+          },
+
+          // onCreate: p => p.html("loading..."),
+
+          onPageActive: (p, index) => {
+            p.onFetch(function () {
+              console.log('fetched', p)
+              // return onFetch(p)
+
+              if (p.active) {
+                p.self_activate()
+              }
+
+              //console.log(p)
+            })
+          },
+
+          //onPageInactive: p => {
+          //p.css('background gray')
+          ////if (p.word){ 
+          ////p.lec.removeWord(p.word.key)
+          ////p.word = p.word.destroy()
+          ////}
+          //},
+
+          onPageDestroy: p => {
+            if (p.word) {
+              //console.log('destroy', p.word.key)
+              p.lec.removeWord(p.word.key)
+              p.word = p.word.destroy()
+              //console.log(p.lec)
+            }
+          }
+        }
+      }
+    }
+
+  let lector = Lector(".pdf-page", settings)
+})
+
 //lector.globalify()
 
 //function fetchContent(index){

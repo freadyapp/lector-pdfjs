@@ -5,3 +5,14 @@
     align-items: center;
     justify-content: center;
 }
+
+.pdf-page {
+    min-height: 300px;
+    min-width: 200px;
+}
+
+.page-loader {
+    width: 100%;
+    height: 100%;
+    background: red;
+}

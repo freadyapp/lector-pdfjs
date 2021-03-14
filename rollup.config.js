@@ -9,7 +9,7 @@ import visualizer from 'rollup-plugin-visualizer'
 import pkg from './package.json';
 
 const plugs = [
-  terser(), // mini
+  //terser(), // mini
   sizes(),
   json(),
   visualizer({
@@ -24,11 +24,15 @@ export default [
   {
     input: 'src/index.js',
     //external: ['tippy', 'mousetrap', 'animejs' ],
-    output: {
+    output: [{
       name: 'lectorPdf',
       file: pkg.browser,
       format: 'umd'
-    },
+    }, {
+			name: 'lectorPdf',
+			file: 'docs/scripts/lectorPdf.umd.js',
+			format: 'umd'
+		}],
     plugins: [
       resolve(), // so Rollup can find `ms`
       commonjs(), // so Rollup can convert `ms` to an ES module

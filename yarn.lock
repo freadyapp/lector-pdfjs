@@ -377,11 +377,11 @@ __metadata:
   linkType: hard
 
 "compromise@npm:^13.7.0":
-  version: 13.10.1
-  resolution: "compromise@npm:13.10.1"
+  version: 13.10.2
+  resolution: "compromise@npm:13.10.2"
   dependencies:
     efrt-unpack: 2.2.0
-  checksum: 515cf655a99d3ab4dbc50507dded6da45ce4ebd0b1fb82ce1dcc9a08f1cc6d28bc29f363a2500fefd7dcf72d0c1bafcb91ae6e0e7e9d323e20a801788a333193
+  checksum: 882e36580154d3b384d1e0db1ca2b1e65f0a285af665390d8fa30dabf181eef60c940969d4a372ebb2aaa7c93b459fc1f0582ca8b00e611b5cee7d45e1ffdee8
   languageName: node
   linkType: hard
 
@@ -883,9 +883,9 @@ fsevents@~2.3.1:
     "@rollup/plugin-commonjs": ^17.0.0
     "@rollup/plugin-json": ^4.1.0
     "@rollup/plugin-node-resolve": ^11.0.1
-    lectorjs: ^0.4.1-b
+    lectorjs: latest
     mousetrap: ^1.6.5
-    pragmajs: latest
+    pragmajs: ^0.7.1
     rollup: ^2.41.0
     rollup-plugin-execute: ^1.1.1
     rollup-plugin-sizes: ^1.0.3
@@ -894,15 +894,15 @@ fsevents@~2.3.1:
   languageName: unknown
   linkType: soft
 
-"lectorjs@npm:^0.4.1-b":
-  version: 0.4.1
-  resolution: "lectorjs@npm:0.4.1"
+"lectorjs@npm:latest":
+  version: 0.4.2-a
+  resolution: "lectorjs@npm:0.4.2-a"
   dependencies:
     animejs: ^3.2.1
     compromise: ^13.7.0
     mousetrap: ^1.6.5
-    pragmajs: latest
-  checksum: 4ef08a57ca5c5bbe721edace736cdeb777a54f2ea1ad39e273a8f02aab07977ce3f2ced559babb1a1fb076545d136e804b6599be0d290161524d68b9d65aa36f
+    pragmajs: ^0.7.1
+  checksum: 91f08a926213e44ee274728688477df20d37006b0349bbc00b537dd6294394fc6686b1dc0f8810540f64733dff2e98cc62f761afd4ac9b15dc0376009aa3d158
   languageName: node
   linkType: hard
 
@@ -1118,10 +1118,10 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"pragmajs@npm:latest":
-  version: 0.6.2-a
-  resolution: "pragmajs@npm:0.6.2-a"
-  checksum: d5b7b790617848c0f3aa6ab45c64a1da0ba8766347977ac5fdaf9523690a3c6890fa3ae714d6ca43cc8be4472ba5989077fc3c4645f472fa7d634c328c641600
+"pragmajs@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "pragmajs@npm:0.7.1"
+  checksum: f8b3dc552cfdedb616190cb3ff4fa20cd5a58aa40b2e83995bb7ecc3337243354359240d5b0ed9e74788d76326223862475e68f89036b56b8f3a4b0e179e8cd9
   languageName: node
   linkType: hard
 

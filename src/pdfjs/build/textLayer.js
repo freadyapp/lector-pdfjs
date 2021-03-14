@@ -91,11 +91,11 @@ class TextLayerBuilder {
       this.textLayerDiv.appendChild(endOfContent);
     }
 
-    this.eventBus.dispatch("textlayerrendered", {
-      source: this,
-      pageNumber: this.pageNumber,
-      numTextDivs: this.textDivs.length,
-    });
+    //this.eventBus.dispatch("textlayerrendered", {
+      //source: this,
+      //pageNumber: this.pageNumber,
+      //numTextDivs: this.textDivs.length,
+    //});
   }
 
   /**
@@ -139,10 +139,10 @@ class TextLayerBuilder {
           this._updateMatches();
         }
       };
-      this.eventBus._on(
-        "updatetextlayermatches",
-        this._onUpdateTextLayerMatches
-      );
+      //this.eventBus._on(
+        //"updatetextlayermatches",
+        //this._onUpdateTextLayerMatches
+      //);
     }
   }
 
@@ -155,10 +155,10 @@ class TextLayerBuilder {
       this.textLayerRenderTask = null;
     }
     if (this._onUpdateTextLayerMatches) {
-      this.eventBus._off(
-        "updatetextlayermatches",
-        this._onUpdateTextLayerMatches
-      );
+      //this.eventBus._off(
+        //"updatetextlayermatches",
+        //this._onUpdateTextLayerMatches
+      //);
       this._onUpdateTextLayerMatches = null;
     }
   }

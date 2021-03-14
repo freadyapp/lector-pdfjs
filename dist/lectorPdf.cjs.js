@@ -4,11 +4,30 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var lectorjs = require('lectorjs');
 var pragmajs = require('pragmajs');
-var Mousetrap = require('mousetrap');
+require('mousetrap');
 
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+function _interopNamespace(e) {
+  if (e && e.__esModule) return e;
+  var n = Object.create(null);
+  if (e) {
+    Object.keys(e).forEach(function (k) {
+      if (k !== 'default') {
+        var d = Object.getOwnPropertyDescriptor(e, k);
+        Object.defineProperty(n, k, d.get ? d : {
+          enumerable: true,
+          get: function () {
+            return e[k];
+          }
+        });
+      }
+    });
+  }
+  n['default'] = e;
+  return Object.freeze(n);
+}
 
-var Mousetrap__default = /*#__PURE__*/_interopDefaultLegacy(Mousetrap);
+var lectorjs__namespace = /*#__PURE__*/_interopNamespace(lectorjs);
+var pragmajs__namespace = /*#__PURE__*/_interopNamespace(pragmajs);
 
 /**
  * @licstart The following is the entire license notice for the
@@ -14607,9 +14626,18 @@ var _svg = __w_pdfjs_require__(21);
 ;
 });
 
-var pdf = /*#__PURE__*/Object.freeze({
+var pdfjs = /*#__PURE__*/Object.freeze({
   __proto__: null
 });
+
+class PDF {
+    constructor(){
+    }
+    
+    static fromUrl(url){
+        return undefined(url).promise
+    }
+}
 
 /* Copyright 2012 Mozilla Foundation
  *
@@ -14686,11 +14714,11 @@ class TextLayerBuilder {
       this.textLayerDiv.appendChild(endOfContent);
     }
 
-    this.eventBus.dispatch("textlayerrendered", {
-      source: this,
-      pageNumber: this.pageNumber,
-      numTextDivs: this.textDivs.length,
-    });
+    //this.eventBus.dispatch("textlayerrendered", {
+      //source: this,
+      //pageNumber: this.pageNumber,
+      //numTextDivs: this.textDivs.length,
+    //});
   }
 
   /**
@@ -14734,10 +14762,10 @@ class TextLayerBuilder {
           this._updateMatches();
         }
       };
-      this.eventBus._on(
-        "updatetextlayermatches",
-        this._onUpdateTextLayerMatches
-      );
+      //this.eventBus._on(
+        //"updatetextlayermatches",
+        //this._onUpdateTextLayerMatches
+      //);
     }
   }
 
@@ -14750,10 +14778,10 @@ class TextLayerBuilder {
       this.textLayerRenderTask = null;
     }
     if (this._onUpdateTextLayerMatches) {
-      this.eventBus._off(
-        "updatetextlayermatches",
-        this._onUpdateTextLayerMatches
-      );
+      //this.eventBus._off(
+        //"updatetextlayermatches",
+        //this._onUpdateTextLayerMatches
+      //);
       this._onUpdateTextLayerMatches = null;
     }
   }
@@ -15039,26 +15067,11 @@ class TextLayerBuilder {
   }
 }
 
-undefined = '/src/pdfjs/build/pdf.worker.js';
-
-function yoing(){
-    console.log('yoing');
-    console.log(pdf);
-}
-
-yoing();
-
 //var url = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
-var url = "/docs/pdfs/dicks.pdf";
 
 // Loaded via <script> tag, create shortcut to access PDF.js exports.
 
 // The workerSrc property shall be specified.
-
-function loadPdf(url){
-    return undefined(url).promise
-}
-
 
 let resolution = 4;
 
@@ -15067,9 +15080,11 @@ class PDFViewer extends pragmajs.Pragma {
         super();
         this.as(element);
         this.scale = 1;
+
+        this.createEvents('load', 'render');
         
         this.css(`
-            transform-origin top left
+            transform-origin top
             transition all .08s ease
         `
         );
@@ -15095,90 +15110,119 @@ class PDFViewer extends pragmajs.Pragma {
     scaleDown(){
         this.scale -= 0.05;
     }
+
+
+    loadFromUrl(url){
+        return this.load(PDF.fromUrl(url))
+    }
+    
+    createPage(pageIndex){
+        return new Promise(resolve => {
+            this.pdf.getPage(pageIndex)
+                .then(page => {
+                    var viewport = page.getViewport({ scale: resolution });
+                    var pageDiv = pragmajs._e(`div.#page-${page._pageIndex+1}`)
+                                    .css("position: relative");
+                              //.appendTo(this)
+
+                    var canvas = pragmajs._e("canvas.").appendTo(pageDiv);
+
+                    var context = canvas.getContext('2d');
+
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    canvas.css(`
+                        width ${viewport.width/resolution}px
+                        height ${viewport.height/resolution}px
+                    `);
+
+                    var renderContext = {
+                      canvasContext: context,
+                      viewport: viewport
+                    };
+
+                  // Render PDF page
+                    page.render(renderContext).promise.then(function () {
+                        return page.getTextContent() // Get text-fragments
+                    }).then(function (textContent) {
+                        // Create div which will hold text-fragments
+                        var textLayerDiv = pragmajs._e("div.textLayer#");
+
+                        textLayerDiv.css(`
+                           transform-origin top left
+                           transform scale(${1/resolution})
+                        `);
+
+                        pageDiv.append(textLayerDiv);
+
+                        // Create new instance of TextLayerBuilder class
+                        var textLayer = new TextLayerBuilder({
+                            textLayerDiv: textLayerDiv,
+                            pageIndex: page.pageIndex,
+                            viewport: viewport
+                        });
+
+                        // Set text-fragments
+                        textLayer.setTextContent(textContent);
+
+                        // Render text-fragments
+                        textLayer.render();
+                        
+                        resolve(pageDiv);
+                      });
+                    });
+                })
+    }
+
+    render(){
+       
+        console.log(`viewing pdf`, this.pdf);
+        let pages =[];
+        for (var i = 10; i <= 20; i++) {
+            pages.push(this.createPage(i));
+        }
+
+        console.log(pages);
+        let final = pages.length-1;
+        pages.forEach((page, i) => page.then(data => {
+            console.log('appending yoing');
+            this.append(data);
+            if (i == final) this.triggerEvent('render');
+        }));
+    }
+    
+    async loadAndRender(pdf){
+        this.load(pdf);
+    }
+
+    async load(pdf){
+        //pdf is of type PDF or promise
+        this._loading = true;
+
+        this.pdf = await pdf;
+
+        this._loading = false;
+        this.triggerEvent('load');
+        return this.pdf
+    }
 }
 
 //var container = _p().as("#the-canvas")
-let container = new PDFViewer("#the-canvas");
 
 
-Mousetrap__default['default'].bind("o", () => container.scaleUp());
-Mousetrap__default['default'].bind("shift+o", () => container.scaleDown());
 
+//loadPdf(url)
+  //.then(function(pdf) {
+    //// Get div#container and cache it for later use
+    ////container.css(`transform scale(${1/scale})`)
 
-loadPdf(url)
-  .then(function(pdf) {
+    //// Loop from 1 to total_number_of_pages in PDF document
+    ////for (var i = 1; i <= pdf.numPages; i++) {
+    
+//})
 
-    // Get div#container and cache it for later use
-    //container.css(`transform scale(${1/scale})`)
-
-    // Loop from 1 to total_number_of_pages in PDF document
-    //for (var i = 1; i <= pdf.numPages; i++) {
-    for (var i = 10; i <= 20; i++) {
-
-        // Get desired page
-        pdf.getPage(i).then(function(page) {
-
-        var viewport = page.getViewport({ scale: resolution });
-            console.log('viewport', viewport);
-            //viewport.height /= 5
-            //viewport.width /= 5
-            //
-        var pageDiv = pragmajs._e(`div.#page-${page._pageIndex+1}`)
-                      .css("position: relative")
-                      .appendTo(container);
-
-        // Create a new Canvas element
-        var canvas = pragmajs._e("canvas.").appendTo(pageDiv);
-
-        var context = canvas.getContext('2d');
-
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-            
-        canvas.css(`
-            width ${viewport.width/resolution}px
-            height ${viewport.height/resolution}px
-        `);
-
-        var renderContext = {
-          canvasContext: context,
-          viewport: viewport
-        };
-
-          // Render PDF page
-        page.render(renderContext).promise.then(function () {
-            // Get text-fragments
-            return page.getTextContent();
-        }).then(function (textContent) {
-            // Create div which will hold text-fragments
-            var textLayerDiv = pragmajs._e("div.textLayer#");
-
-            textLayerDiv.css(`
-               transform-origin top left
-               transform scale(${1/resolution})
-            `);
-
-            pageDiv.append(textLayerDiv);
-
-            // Create new instance of TextLayerBuilder class
-            var textLayer = new TextLayerBuilder({
-                textLayerDiv: textLayerDiv,
-                pageIndex: page.pageIndex,
-                viewport: viewport
-            });
-
-            // Set text-fragments
-            textLayer.setTextContent(textContent);
-
-            // Render text-fragments
-            textLayer.render();
-            
-            });
-        });
-    }
-});
-
-
+undefined = '/src/pdfjs/build/pdf.worker.js';
 
 function wfyInner(desc) {
     if (!desc) return false
@@ -15203,40 +15247,9 @@ function wfyElement(element) {
     nodes.forEach(desc => wfyElement(desc));
 }
 
-//export function wfy(element) {
-    //// console.log(`wfying ${JSON.stringify(element)}`)
-    //element = _e(element)
-    //// if (element.textContent.replaceAll(" ", "").length<1) return false
-    //let txtNodes = element.findAll("*")
-    //if (txtNodes.length == 0) return wfyElement(element)
-    //// txtNodes.each((i, el) => {
-    ////   wfy(el)
-    //// })
-    //txtNodes.forEach(el => wfy(el))
-    //return true
-//}
-console.log(Mousetrap__default['default']);
-
-
-setTimeout(() => {
-    console.log('new lector');
-    pragmajs._e('body').findAll('.textLayer').forEach(textLayer => wfyElement(textLayer));
-    
-    let lector = lectorjs.Lector("#the-canvas", {
-        wfy: false,
-        settings: true,
-        defaultStyles: true,
-        fullStyles: true
-    });
-    
-
-    Mousetrap__default['default'].bind('space', () => {
-        lector.toggle();
-        return false
-    });
-}, 2000);
-
-
+function wfy(element){
+  wfyElement(element);
+}
 
 //var pdfDoc = null,
     //pageNum = 1,
@@ -15355,4 +15368,26 @@ setTimeout(() => {
   //renderPage(pageNum);
 //});
 
-exports.yoing = yoing;
+Object.defineProperty(exports, 'Lector', {
+  enumerable: true,
+  get: function () {
+    return lectorjs.Lector;
+  }
+});
+Object.defineProperty(exports, 'Word', {
+  enumerable: true,
+  get: function () {
+    return lectorjs.Word;
+  }
+});
+Object.defineProperty(exports, 'helpers', {
+  enumerable: true,
+  get: function () {
+    return lectorjs.helpers;
+  }
+});
+exports.lector = lectorjs__namespace;
+exports.pragma = pragmajs__namespace;
+exports.PDFViewer = PDFViewer;
+exports.wfy = wfy;
+exports.wfyElement = wfyElement;
