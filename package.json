@@ -1,9 +1,13 @@
 {
   "name": "lector-pdfjs",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Read pdfs like you're on aderall",
 	"license": "CC0",
  	"repository": "robo-monk/lector-pdfjs",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
 
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
