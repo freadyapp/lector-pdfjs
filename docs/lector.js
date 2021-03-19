@@ -1,14 +1,13 @@
 // import { Lector } from '../src'
 // import { Word } from "../src/lector"
 
-
-globalThis.pragmaSpace.integrateMousetrap(Mousetrap)
 let _e = lectorPdf.pragma._e
 let _p = lectorPdf.pragma._p
 
 lectorPdf.lector.globalify()
 lectorPdf.injectStyles()
 
+globalThis.pragmaSpace.integrateMousetrap(Mousetrap)
 let pdfs = {
   "algorythms": "https://freadypublic.s3.eu-central-1.amazonaws.com/Data+Structures+and+Algorithms+in+Java%2C+6th+Edition%2C+2014.pdf",
   "energy star": "https://freadypublic.s3.eu-central-1.amazonaws.com/ENERGY+STAR.pdf",
