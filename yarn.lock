@@ -662,11 +662,11 @@ __metadata:
   linkType: hard
 
 "compromise@npm:^13.7.0":
-  version: 13.10.2
-  resolution: "compromise@npm:13.10.2"
+  version: 13.10.3
+  resolution: "compromise@npm:13.10.3"
   dependencies:
     efrt-unpack: 2.2.0
-  checksum: 882e36580154d3b384d1e0db1ca2b1e65f0a285af665390d8fa30dabf181eef60c940969d4a372ebb2aaa7c93b459fc1f0582ca8b00e611b5cee7d45e1ffdee8
+  checksum: 979609642eea37f152e8e264b0da86d81bc2a07820cd6dda7835bbaa45c22a7def7e7e6c724e81525043b1057eb39230c388e1e4c541a8238a74e03a5429f688
   languageName: node
   linkType: hard
 
@@ -1797,7 +1797,7 @@ fsevents@~2.3.1:
     "@rollup/plugin-node-resolve": ^11.0.1
     animejs: ^3.2.1
     eslint: ^7.19.0
-    lectorjs: latest
+    lectorjs: 0.4.3
     mousetrap: ^1.6.5
     nodemon: ^2.0.7
     pragmajs: ^0.7.1
@@ -1810,15 +1810,15 @@ fsevents@~2.3.1:
   languageName: unknown
   linkType: soft
 
-"lectorjs@npm:latest":
-  version: 0.4.2-a
-  resolution: "lectorjs@npm:0.4.2-a"
+"lectorjs@npm:0.4.3":
+  version: 0.4.3
+  resolution: "lectorjs@npm:0.4.3"
   dependencies:
     animejs: ^3.2.1
     compromise: ^13.7.0
     mousetrap: ^1.6.5
-    pragmajs: ^0.7.1
-  checksum: 91f08a926213e44ee274728688477df20d37006b0349bbc00b537dd6294394fc6686b1dc0f8810540f64733dff2e98cc62f761afd4ac9b15dc0376009aa3d158
+    pragmajs: latest
+  checksum: b1e1ad673491f132dd27bbe81d9cb89090a6e1732b8aaebe5b51d7ad39f1c02d09748055e2c00cab10ecd2b80d4bf55dd44b59b474d572411e3688af2dd8529e
   languageName: node
   linkType: hard
 
@@ -2225,6 +2225,13 @@ fsevents@~2.3.1:
   version: 0.7.1
   resolution: "pragmajs@npm:0.7.1"
   checksum: f8b3dc552cfdedb616190cb3ff4fa20cd5a58aa40b2e83995bb7ecc3337243354359240d5b0ed9e74788d76326223862475e68f89036b56b8f3a4b0e179e8cd9
+  languageName: node
+  linkType: hard
+
+"pragmajs@npm:latest":
+  version: 0.7.4
+  resolution: "pragmajs@npm:0.7.4"
+  checksum: e1e95a1e692d367a5e3beb65a38b400f74078e626fd576b2e56aa438212a2b2d6b2548816e253eb49b8648b1bd47ddaa99c7f1d35977240974efbb7823731488
   languageName: node
   linkType: hard
 
