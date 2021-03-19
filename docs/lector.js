@@ -2,20 +2,23 @@
 // import { Word } from "../src/lector"
 
 
-
-pragmaSpace.integrateMousetrap(Mousetrap)
+globalThis.pragmaSpace.integrateMousetrap(Mousetrap)
 let _e = lectorPdf.pragma._e
 let _p = lectorPdf.pragma._p
 
 lectorPdf.lector.globalify()
-
-console.log(Mousetrap)
 lectorPdf.injectStyles()
 
 let pdfs = {
   "algorythms": "https://freadypublic.s3.eu-central-1.amazonaws.com/Data+Structures+and+Algorithms+in+Java%2C+6th+Edition%2C+2014.pdf",
   "energy star": "https://freadypublic.s3.eu-central-1.amazonaws.com/ENERGY+STAR.pdf",
-  "reasoning and logic": "/docs/pdfs/dicks.pdf"
+  "reasoning and logic": "/docs/pdfs/dicks.pdf",
+  "fready": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/cover+pdf.pdf",
+  "schema": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/dbass2pages.pdf",
+  "accounting": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Financial+Accounting.pdf",
+  "economics": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Modern+Principles+of+Economics+copy.pdf",
+  "psopy psopy": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Organizational+Behaviour+17th+Edition.pdf"
+
 }
 
 let lectorController = _p().createEvent("create")
@@ -89,7 +92,9 @@ function initateFromPdfUrl(url){
   // var url = "/docs/pdfs/dicks.pdf"
   // var url = "https://freadypublic.s3.eu-central-1.amazonaws.com/ENERGY+STAR.pdf"
 
-  viewer.loadFromUrl(url)
+  globalThis.pragmaSpace.onDocLoad(() =>{
+    viewer.loadFromUrl(url)
+  })
 
   function fetchContent(pageIndex){
     return new Promise(resolve => resolve(pageIndex))
