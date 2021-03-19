@@ -17,29 +17,30 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <header>
-    <ul class="flex">
-      <li class="mr-6">
-        <a class="font-bold text-blue-700 hover:text-blue-800" href="#">Demo</a>
-      </li>
-      <li class="mr-6">
-        <a class="text-blue-500 hover:text-blue-800" href="#">Documentation</a>
-      </li>
-      <li class="mr-6">
-        <a class="text-blue-500 hover:text-blue-800" href="#">About</a>
-      </li>
-      <li class="mr-6">
-        <a class="text-gray-400 cursor-not-allowed" href="#">fready.co</a>
-      </li>
-    </ul>
-    </header>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&display=swap');
 
-<div>
-  <button id="prev">Previous</button>
-  <button id="next">Next</button>
-  &nbsp; &nbsp;
-  <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
-</div>
+      #pdf-selector {
+        color: whitesmoke;
+        position: fixed;
+        font-family: 'IBM Plex Mono', monospace;
+      }
+      #pdf-selector .option {
+        opacity: .4;
+        cursor: pointer;
+      }
+
+      #pdf-selector .option:hover {
+        opacity: .9;
+      }
+      #pdf-selector .option.selected {
+        opacity: 1;
+      }
+
+    </style>
+    <header>
+      <div id="pdf-selector"></div>
+    </header>
 
     <div class='viewer-rapper'>
       <div id="the-canvas">
