@@ -4,11 +4,14 @@
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.1",
+    "eslint": "^7.19.0",
+    "nodemon": "^2.0.7",
     "rollup": "^2.41.0",
     "rollup-plugin-execute": "^1.1.1",
     "rollup-plugin-sizes": "^1.0.3",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-visualizer": "^4.2.0"
+    "rollup-plugin-visualizer": "^4.2.0",
+    "style-loader": "^2.0.0"
   },
   "source": "src/index.js",
   "main": "dist/lectorPdf.cjs.js",
@@ -25,10 +28,13 @@
   ],
   "scripts": {
     "build": "rollup -c",
+    "lint": "yarn run eslint src",
     "pretest": "yarn build",
-    "test": "jest",
     "test:watch": "jest --watchAll",
-    "dev": "rollup -c -w"
+    "test": "jest",
+    "dev-rollup": "rollup -c -w",
+    "dev-style": "nodemon -w 'src/styles/**' -e css,scss --exec python3 sass",
+    "dev": "nodemon -w 'src/' -e css,scss,js --exec python3 watchtower"
   },
   "dependencies": {
     "animejs": "^3.2.1",

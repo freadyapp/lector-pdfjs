@@ -1,5 +1,5 @@
 export { Lector, helpers, Word } from "lectorjs"
-import { _e, _p, Pragma } from 'pragmajs'
+import { _e, _p, Pragma, util } from 'pragmajs'
 export { PDFViewer } from "./pdfLoader/index"
 import Mousetrap from 'mousetrap'
 
@@ -30,6 +30,14 @@ export function wfy(element){
   wfyElement(element)
 }
 
+
+import css from "./styles/styles.json"
+export function injectStyles(functional=true, themeName='default'){
+  if (functional) util.addStyles(css.basic, 'lectorjs-pdf-functional')
+  let theme = themeName && css[`${themeName}_theme`]
+  if (theme) util.addStyles(theme, `lectorjs-pdf-${themeName}-theme`)
+}
+
 //export function wfy(element) {
     //// console.log(`wfying ${JSON.stringify(element)}`)
     //element = _e(element)
@@ -46,7 +54,7 @@ export function wfy(element){
 
 export * as pragma from "pragmajs"
 export * as lector from "lectorjs"
-export * as utilities from "./utilities"
+export * as utilities from "./utilities/index"
 
 //var pdfDoc = null,
     //pageNum = 1,

@@ -1,10 +1,11 @@
 import * as lectorjs from 'lectorjs';
 export { lectorjs as lector };
 export { Lector, Word, helpers } from 'lectorjs';
-import { Pragma, _e } from 'pragmajs';
+import { Pragma, _e, util } from 'pragmajs';
 import * as pragmajs from 'pragmajs';
 export { pragmajs as pragma };
 import 'mousetrap';
+import anime from 'animejs';
 
 /**
  * @licstart The following is the entire license notice for the
@@ -15201,6 +15202,101 @@ class PDFViewer extends Pragma {
 
 undefined = '/src/pdfjs/build/pdf.worker.js';
 
+var basic = "@charset \"utf-8\";.textLayer{position:absolute;left:0;top:0;right:0;bottom:0;opacity:.1;line-height:1}.textLayer>span{color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0 0}.textLayer .highlight{margin:-1px;padding:1px;background-color:#b400aa;border-radius:4px}.textLayer .highlight.begin{border-radius:4px 0 0 4px}.textLayer .highlight.end{border-radius:0 4px 4px 0}.textLayer .highlight.middle{border-radius:0}.textLayer .highlight.selected{background-color:darkgreen}.textLayer::selection{background:#00f}.textLayer .endOfContent{display:block;position:absolute;left:0;top:100%;right:0;bottom:0;z-index:-1;cursor:default;user-select:none}.textLayer .endOfContent.active{top:0}";
+var default_theme = "@charset \"utf-8\";.viewer-rapper{width:100%;display:flex;align-items:center;justify-content:center;flex-direction:column}.pdf-page{display:flex;align-items:center;justify-content:center;min-height:400px;min-width:400px}.lector-page{border-radius:3px}.lector-page.loading{width:100%;height:600px;margin:50px 0;background:rgba(255,255,255,0.077);display:flex;align-items:center;justify-content:center}.pragma-loader{margin:auto;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;width:40px;height:40px}.pragma-loader div{width:10px;height:10px;border:1px solid #FFF;background-color:#FFF}";
+var css = {
+	basic: basic,
+	default_theme: default_theme
+};
+
+//util.addStyles(`
+//.fragment-loader-element {
+//width: 1rem;
+//height: 1rem;
+//border: 1px solid #FFF;
+//background-color: #FFF;      
+//} 
+//`)
+
+function loader(element) {
+    return createNewLoader(element)
+}
+
+function createNewLoader(size=4, element=".") {
+    // todo convert this to pragma
+
+    const staggerVisualizerEl = _e(element).addClass('pragma-loader');
+
+    // const staggerVisualizerEl = document.querySelector('.stagger-visualizer');
+    const fragment = document.createDocumentFragment();
+    const grid = [size, size];
+    const col = grid[0];
+    const row = grid[1];
+    const numberOfElements = col * row;
+
+    for (let i = 0; i < numberOfElements; i++) {
+        fragment.appendChild(document.createElement('div'));
+    }
+
+    staggerVisualizerEl.appendChild(fragment);
+
+    const staggersAnimation = anime.timeline({
+        targets: staggerVisualizerEl.querySelectorAll('div'),
+        easing: 'easeInOutSine',
+        delay: anime.stagger(50),
+        loop: true,
+        autoplay: false
+    })
+        .add({
+            translateX: [
+                { value: anime.stagger('-.1rem', { grid: grid, from: 'center', axis: 'x' }) },
+                { value: anime.stagger('.1rem', { grid: grid, from: 'center', axis: 'x' }) }
+            ],
+            translateY: [
+                { value: anime.stagger('-.1rem', { grid: grid, from: 'center', axis: 'y' }) },
+                { value: anime.stagger('.1rem', { grid: grid, from: 'center', axis: 'y' }) }
+            ],
+            duration: 1000,
+            scale: .5,
+            delay: anime.stagger(100, { grid: grid, from: 'center' })
+        })
+
+        .add({
+            translateX: anime.stagger('.25rem', { grid: grid, from: 'center', axis: 'x' }),
+            translateY: anime.stagger('.25rem', { grid: grid, from: 'center', axis: 'y' }),
+            rotate: 0,
+            scaleX: 2.5,
+            scaleY: .25,
+            delay: anime.stagger(4, { from: 'center' })
+        })
+        .add({
+            rotate: anime.stagger([90, 0], { grid: grid, from: 'center' }),
+            delay: anime.stagger(50, { grid: grid, from: 'center' })
+        })
+        .add({
+            translateX: 0,
+            translateY: 0,
+            scale: .5,
+            scaleX: 1,
+            rotate: 180,
+            duration: 1000,
+            delay: anime.stagger(100, { grid: grid, from: 'center' })
+        })
+        .add({
+            scaleY: 1,
+            scale: 1,
+            delay: anime.stagger(20, { grid: grid, from: 'center' })
+        });
+
+    staggersAnimation.play();
+    return staggerVisualizerEl
+}
+
+var index = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  loader: loader
+});
+
 function wfyInner(desc) {
     if (!desc) return false
     desc = _e(desc);
@@ -15226,6 +15322,11 @@ function wfyElement(element) {
 
 function wfy(element){
   wfyElement(element);
+}
+function injectStyles(functional=true, themeName='default'){
+  if (functional) util.addStyles(css.basic, 'lectorjs-pdf-functional');
+  let theme = themeName && css[`${themeName}_theme`];
+  if (theme) util.addStyles(theme, `lectorjs-pdf-${themeName}-theme`);
 }
 
 //var pdfDoc = null,
@@ -15345,4 +15446,4 @@ function wfy(element){
   //renderPage(pageNum);
 //});
 
-export { PDFViewer, wfy, wfyElement };
+export { PDFViewer, injectStyles, index as utilities, wfy, wfyElement };

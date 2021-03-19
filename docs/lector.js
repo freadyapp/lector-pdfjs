@@ -2,12 +2,14 @@
 // import { Word } from "../src/lector"
 
 
+
 pragmaSpace.integrateMousetrap(Mousetrap)
 let _e = lectorPdf.pragma._e
 
 lectorPdf.lector.globalify()
 
 console.log(Mousetrap)
+lectorPdf.injectStyles()
 
 let viewer = new lectorPdf.PDFViewer("#the-canvas")
 Mousetrap.bind("o", () => viewer.scaleUp())
@@ -52,6 +54,8 @@ viewer.on('load', () => {
       paginate: {
         from: 'stream',
         as: 'infiniteScroll',
+        first: 1,
+        last: 50,
         config: {
           onCreate: (p, index) => {
             //p.css("background lightgray")
