@@ -955,7 +955,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.19.0":
+"eslint@npm:^7.22.0":
   version: 7.22.0
   resolution: "eslint@npm:7.22.0"
   dependencies:
@@ -1803,8 +1803,8 @@ fsevents@~2.3.1:
     "@rollup/plugin-json": ^4.1.0
     "@rollup/plugin-node-resolve": ^11.0.1
     animejs: ^3.2.1
-    eslint: ^7.19.0
-    lectorjs: latest
+    eslint: ^7.22.0
+    lectorjs: ^0.4.6
     mousetrap: ^1.6.5
     nodemon: ^2.0.7
     pragmajs: ^0.7.1
@@ -1818,15 +1818,15 @@ fsevents@~2.3.1:
   languageName: unknown
   linkType: soft
 
-"lectorjs@npm:latest":
-  version: 0.4.4
-  resolution: "lectorjs@npm:0.4.4"
+"lectorjs@npm:^0.4.6":
+  version: 0.4.6
+  resolution: "lectorjs@npm:0.4.6"
   dependencies:
     animejs: ^3.2.1
     compromise: ^13.7.0
     mousetrap: ^1.6.5
     pragmajs: latest
-  checksum: 6fb7b454d37e3a11380845b034f54d63f8b33a7e50873e0aa4a2017f6fc0852a496d0b7c70302fc8662b19d1675b3f24163ee1b23b25fa381f2c60db58aa45fe
+  checksum: ccf1287e7fb44300063b39a5eb2517099af09037533253123f4b5e780e09c97d33fee2ff6fb8d74199744b9215bbc09adab8dcc9fbf7771f7cfff5b4f30bac8f
   languageName: node
   linkType: hard
 
