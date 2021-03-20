@@ -681,11 +681,11 @@ __metadata:
   linkType: hard
 
 "compromise@npm:^13.7.0":
-  version: 13.10.3
-  resolution: "compromise@npm:13.10.3"
+  version: 13.10.4
+  resolution: "compromise@npm:13.10.4"
   dependencies:
     efrt-unpack: 2.2.0
-  checksum: 979609642eea37f152e8e264b0da86d81bc2a07820cd6dda7835bbaa45c22a7def7e7e6c724e81525043b1057eb39230c388e1e4c541a8238a74e03a5429f688
+  checksum: 068cc662cf819772967d0b1a35b140ea8f4eb092ff40dea4644403b4786f38b2993ae6fb8e3d10db02f23cba8a6089aa7994b088ec23502b39c4ddef2154f875
   languageName: node
   linkType: hard
 
@@ -1869,8 +1869,7 @@ fsevents@~2.3.1:
     animejs: ^3.2.1
     canvas: ^2.7.0
     eslint: ^7.19.0
-    lector: latest
-    lectorjs: 0.4.3
+    lectorjs: latest
     mousetrap: ^1.6.5
     nodemon: ^2.0.7
     pragmajs: ^0.7.1
@@ -1884,22 +1883,15 @@ fsevents@~2.3.1:
   languageName: unknown
   linkType: soft
 
-"lector@npm:latest":
-  version: 0.2.1
-  resolution: "lector@npm:0.2.1"
-  checksum: 019c0ac738e01e8091b75aaa5f69121fb4eb163c2b556cf1a13472c084b632dac244ffde387752b08e5f21aa85f250653cb21e8f29c213644ce81712e5652287
-  languageName: node
-  linkType: hard
-
-"lectorjs@npm:0.4.3":
-  version: 0.4.3
-  resolution: "lectorjs@npm:0.4.3"
+"lectorjs@npm:latest":
+  version: 0.4.4
+  resolution: "lectorjs@npm:0.4.4"
   dependencies:
     animejs: ^3.2.1
     compromise: ^13.7.0
     mousetrap: ^1.6.5
     pragmajs: latest
-  checksum: b1e1ad673491f132dd27bbe81d9cb89090a6e1732b8aaebe5b51d7ad39f1c02d09748055e2c00cab10ecd2b80d4bf55dd44b59b474d572411e3688af2dd8529e
+  checksum: 6fb7b454d37e3a11380845b034f54d63f8b33a7e50873e0aa4a2017f6fc0852a496d0b7c70302fc8662b19d1675b3f24163ee1b23b25fa381f2c60db58aa45fe
   languageName: node
   linkType: hard
 

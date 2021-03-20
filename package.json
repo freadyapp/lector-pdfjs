@@ -1,6 +1,6 @@
 {
   "name": "lector-pdfjs",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Read pdfs like you're on aderall",
   "license": "CC0",
   "repository": "robo-monk/lector-pdfjs",
@@ -48,8 +48,7 @@
   "dependencies": {
     "animejs": "^3.2.1",
     "canvas": "^2.7.0",
-    "lector": "latest",
-    "lectorjs": "0.4.3",
+    "lectorjs": "latest",
     "mousetrap": "^1.6.5",
     "pragmajs": "^0.7.1"
   }
