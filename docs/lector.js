@@ -7,6 +7,7 @@ let _p = lectorPdf.pragma._p
 lectorPdf.lector.globalify()
 lectorPdf.injectStyles()
 
+let loader = lectorPdf.utilities.loader(1).appendTo(_e("[data-lector-target='loading']"))
 globalThis.pragmaSpace.integrateMousetrap(Mousetrap)
 let pdfs = {
   "algorythms": "https://freadypublic.s3.eu-central-1.amazonaws.com/Data+Structures+and+Algorithms+in+Java%2C+6th+Edition%2C+2014.pdf",
@@ -136,15 +137,15 @@ function initateFromPdfUrl(url){
 
             onFetch: (p, index) => {
               console.log('p has been fetched', index)
-              let loader = lectorPdf.utilities.loader(1).appendTo(p)
-              loader.style.opacity = '.5'
+              // let loader = lectorPdf.utilities.loader(1).appendTo(p)
+              // loader.style.opacity = '.5'
 
     //   viewer.createPage(pageIndex).then(page => {
     //     resolve(page.html())
     //   })   
               viewer.createPage(index).then(pdfPage => {
                 p.append(pdfPage)
-                loader.destroy()
+                // loader.destroy()
                 p.removeClass('loading')
               })
               //_e('body').findAll('.textLayer').forEach(textLayer => lectorPdf.wfy(textLayer))
@@ -201,5 +202,12 @@ function initateFromPdfUrl(url){
       }
 
     let lector = Lector(".pdf-page", settings)
+    console.log('loggin updates')
+    console.log(lector.settings)
+
+    // add code that remove the loader when the last page is reached
+    lector.settings.on('load', value => {
+      console.log('haha', value)
+    })
   })
 }

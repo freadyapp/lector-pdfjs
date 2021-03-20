@@ -1055,6 +1055,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"estree-walker@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "estree-walker@npm:0.6.1"
+  checksum: a63b94b841fcda2d79ff8e313b4ea8439b3364094ba66547289814bd7da4399a54cd33849b23504d239266430f219a142627071201a9fb6eb488bd025575f8fc
+  languageName: node
+  linkType: hard
+
 "estree-walker@npm:^1.0.1":
   version: 1.0.1
   resolution: "estree-walker@npm:1.0.1"
@@ -1803,6 +1810,7 @@ fsevents@~2.3.1:
     pragmajs: ^0.7.1
     rollup: ^2.41.0
     rollup-plugin-execute: ^1.1.1
+    rollup-plugin-node-polyfills: ^0.2.1
     rollup-plugin-sizes: ^1.0.3
     rollup-plugin-terser: ^7.0.2
     rollup-plugin-visualizer: ^4.2.0
@@ -1873,7 +1881,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.25.7":
+"magic-string@npm:^0.25.3, magic-string@npm:^0.25.7":
   version: 0.25.7
   resolution: "magic-string@npm:0.25.7"
   dependencies:
@@ -2478,6 +2486,26 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"rollup-plugin-inject@npm:^3.0.0":
+  version: 3.0.2
+  resolution: "rollup-plugin-inject@npm:3.0.2"
+  dependencies:
+    estree-walker: ^0.6.1
+    magic-string: ^0.25.3
+    rollup-pluginutils: ^2.8.1
+  checksum: c043f4eba75145d39e6732aac0420cad12045e3eaa3cb78905083382d0315c026a0af289a803287ba466f3a6470ac3dc8dd8731b1cc93969752682fae5b96152
+  languageName: node
+  linkType: hard
+
+"rollup-plugin-node-polyfills@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "rollup-plugin-node-polyfills@npm:0.2.1"
+  dependencies:
+    rollup-plugin-inject: ^3.0.0
+  checksum: ece17e6ff9d6a5e08f444719dc5aeba62ea64998a32abd70a6fc7a3ea1649042f1223b6621faa0d9777b18fec2888f42133188551b32d1f1821f79694827c4ed
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-sizes@npm:^1.0.3":
   version: 1.0.4
   resolution: "rollup-plugin-sizes@npm:1.0.4"
@@ -2517,6 +2545,15 @@ fsevents@~2.3.1:
   bin:
     rollup-plugin-visualizer: bin/cli.js
   checksum: 4336b9185e95482aca46421902a8704ddb8b6093e8eca998d1af83bf3ad153c92289e37342066006f9c2ca802d15578b0037fa909d2826609bf37fa084ff14cc
+  languageName: node
+  linkType: hard
+
+"rollup-pluginutils@npm:^2.8.1":
+  version: 2.8.2
+  resolution: "rollup-pluginutils@npm:2.8.2"
+  dependencies:
+    estree-walker: ^0.6.1
+  checksum: 6922c1a26df033cc3da4650106244fb2211b5ddf72a93be5010cbe51a0817c9abcab08f61cbc3f5fc906b2701df123d8c9b0dae0a34e69dd07218e34e5d357b8
   languageName: node
   linkType: hard
 

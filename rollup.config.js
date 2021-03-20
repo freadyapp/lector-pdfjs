@@ -1,4 +1,5 @@
 import resolve from '@rollup/plugin-node-resolve';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
 import commonjs from '@rollup/plugin-commonjs';
 
 import { terser } from "rollup-plugin-terser"
@@ -9,14 +10,16 @@ import visualizer from 'rollup-plugin-visualizer'
 import pkg from './package.json';
 
 const plugs = [
-  terser(), // mini
+  nodePolyfills(),
   sizes(),
   json(),
   visualizer({
     filename: "docs/stats.html",
     title: "LectorJS-pdfjs Visualised",
     //sourcemap: true
-  })
+  }),
+
+  terser(), // mini
 ]
 
 export default [

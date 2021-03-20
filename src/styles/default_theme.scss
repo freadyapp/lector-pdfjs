@@ -50,4 +50,17 @@ body {
       background-color: #FFF;
 }
 
+.word-element {
+    mix-blend-mode: darken !important;
 
+    &.hover-0 {
+        filter: blur(14px);
+    }
+    &.hover-1 {
+        filter: blur(18px);
+    }
+    &.hover-2 {
+        filter: blur(22px);
+    }
+
+}
