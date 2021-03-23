@@ -17,7 +17,8 @@ let pdfs = {
   "schema": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/dbass2pages.pdf",
   "accounting": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Financial+Accounting.pdf",
   "economics": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Modern+Principles+of+Economics+copy.pdf",
-  "psopy psopy": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Organizational+Behaviour+17th+Edition.pdf"
+  "psopy psopy": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Organizational+Behaviour+17th+Edition.pdf",
+  "test": "https://frengine.s3.eu-central-1.amazonaws.com/5747008a-c800-41c3-aaf5-1823abf2542f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIU7EN4763JEXYRUA%2F20210320%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20210320T230547Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=016f1786fa55c558f146d8c3ae04491d28547b580d4d3e372c7d8f9eb474bfe8"
 
 }
 
