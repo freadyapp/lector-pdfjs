@@ -1,27 +1,43 @@
 #!/bin/bash
 
+default_pkg="yarn"
+default_env="dev"
+
+PKGM=${1:-$default_pkg}
+ENV=${2:-$default_env}
+
 echo "
-welcome to
+  welcome to
 
-█░░ █▀▀ █▀▀ ▀▀█▀▀ █▀▀█ █▀▀█ ░░▀ █▀▀ 
-█░░ █▀▀ █░░ ░░█░░ █░░█ █▄▄▀ ░░█ ▀▀█ 
-▀▀▀ ▀▀▀ ▀▀▀ ░░▀░░ ▀▀▀▀ ▀░▀▀ █▄█ ▀▀▀
+  █░░ █▀▀ █▀▀ ▀▀█▀▀ █▀▀█ █▀▀█ ░░▀ █▀▀ 
+  █░░ █▀▀ █░░ ░░█░░ █░░█ █▄▄▀ ░░█ ▀▀█ 
+  ▀▀▀ ▀▀▀ ▀▀▀ ░░▀░░ ▀▀▀▀ ▀░▀▀ █▄█ ▀▀▀
+              |   _| 
+     _ \   _\` |   _| 
+    .__/ \__,_| _|   
+   _|                
 
-            |   _| 
-   _ \   _\` |   _| 
-  .__/ \__,_| _|   
- _|                
-
-
-
-Setting up..
+  Setting up using [$PKGM]
+  @ [$ENV] environment
 "
-source "./.lector_env/bin/activate"
-pip install -r .requirements.txt
-yarn dev
+export LECTORJSPKG="$PKGM"
+export LECTOR_ENV="$ENV"
+
+supported_managers=(npm yarn)
+
+if (printf '%s\n' "${supported_managers[@]}" | grep -xq $PKGM); then
+	source "./.lector_env/bin/activate"
+	pip install -r .requirements.txt
+	$PKGM install
+	$PKGM run dev
+else
+	echo "[ERROR] Please specify package manager:\n\n  eg. \n \t source setup yarn \n \t source setup npm"
+fi
+
+
+
 
 echo "
-
 
 
 

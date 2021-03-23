@@ -9,17 +9,27 @@ import json from '@rollup/plugin-json';
 import visualizer from 'rollup-plugin-visualizer'
 import pkg from './package.json';
 
+
+console.log("[ BUNDLING ] @ ", process.env["LECTOR_ENV"])
+
+const env = process.env["LECTOR_ENV"]
+const prod = (env == 'production' || env == 'prod')
+
+function ifProd(plug, params) {
+  return prod ? plug(params) : null
+}
+
 const plugs = [
   nodePolyfills(),
-  sizes(),
+  ifProd(sizes),
   json(),
-  visualizer({
+  ifProd(visualizer, {
     filename: "docs/stats.html",
     title: "LectorJS-pdfjs Visualised",
     //sourcemap: true
   }),
 
-  terser(), // mini
+  ifProd(terser), // mini
 ]
 
 export default [

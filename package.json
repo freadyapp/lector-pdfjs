@@ -1,56 +1,56 @@
 {
-  "name": "lector-pdfjs",
-  "version": "0.3.6b",
-  "description": "Read pdfs like you're on aderall",
-  "license": "CC0",
-  "repository": "robo-monk/lector-pdfjs",
-  "directories": {
-    "doc": "docs",
-    "test": "test"
-  },
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^17.0.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^11.0.1",
-    "eslint": "^7.22.0",
-    "nodemon": "^2.0.7",
-    "rollup": "^2.41.0",
-    "rollup-plugin-execute": "^1.1.1",
-    "rollup-plugin-node-polyfills": "^0.2.1",
-    "rollup-plugin-sizes": "^1.0.3",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-visualizer": "^4.2.0"
-  },
-  "source": "src/index.js",
-  "main": "dist/lectorPdf.cjs.js",
-  "module": "dist/lectorPdf.esm.js",
-  "browser": "dist/lectorPdf.umd.js",
-  "files": [
-    "dist/"
-  ],
-  "keywords": [
-    "lector",
-    "npm",
-    "package",
-    "fready"
-  ],
-  "scripts": {
-    "build": "rollup -c",
-    "lint": "yarn run eslint src",
-    "pretest": "yarn build",
-    "test:watch": "jest --watchAll",
-    "test": "jest",
-    "dev-rollup": "rollup -c -w",
-    "dev-style": "nodemon -w 'src/styles/**' -e css,scss --exec python3 sass",
-    "dev": "nodemon -w 'src/' -e css,scss,js --exec python3 watchtower"
-  },
-  "dependencies": {
-    "animejs": "^3.2.1",
-    "lectorjs": "^0.4.6-b",
-    "mousetrap": "^1.6.5",
-    "pragmajs": "^0.7.1"
-  },
-  "resolutions": {
-    "lector-pdfjs": "portal:/Users/robo/Documents/Fready/lector-pdfjs"
-  }
+    "name": "lector-pdfjs",
+    "version": "0.4.0",
+    "description": "Read pdfs like you're on aderall",
+    "license": "CC0",
+    "repository": "robo-monk/lector-pdfjs",
+    "directories": {
+        "doc": "docs",
+        "test": "test"
+    },
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "^17.0.0",
+        "@rollup/plugin-json": "^4.1.0",
+        "@rollup/plugin-node-resolve": "^11.0.1",
+        "eslint": "^7.22.0",
+        "nodemon": "^2.0.7",
+        "rollup": "^2.41.0",
+        "rollup-plugin-execute": "^1.1.1",
+        "rollup-plugin-node-polyfills": "^0.2.1",
+        "rollup-plugin-sizes": "^1.0.3",
+        "rollup-plugin-terser": "^7.0.2",
+        "rollup-plugin-visualizer": "^4.2.0"
+    },
+    "source": "src/index.js",
+    "main": "dist/lectorPdf.cjs.js",
+    "module": "dist/lectorPdf.esm.js",
+    "browser": "dist/lectorPdf.umd.js",
+    "files": [
+        "dist/"
+    ],
+    "keywords": [
+        "lector",
+        "npm",
+        "package",
+        "fready"
+    ],
+    "scripts": {
+        "build": "rollup -c",
+        "lint": "yarn run eslint src",
+        "pretest": "yarn build",
+        "test:watch": "jest --watchAll",
+        "test": "jest",
+        "dev-rollup": "rollup -c -w",
+        "dev-style": "nodemon -w 'src/styles/**' -e css,scss --exec python3 sass",
+        "dev": "nodemon -w 'src/' -e css,scss,js --exec python3 watchtower"
+    },
+    "dependencies": {
+        "animejs": "^3.2.1",
+        "lectorjs": "latest",
+        "mousetrap": "^1.6.5",
+        "pragmajs": "^0.7.1"
+    },
+    "resolutions": {
+        "lector-pdfjs": "portal:/Users/robo/Documents/Fready/lector-pdfjs"
+    }
 }
