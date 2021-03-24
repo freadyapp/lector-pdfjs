@@ -1763,7 +1763,7 @@ fsevents@~2.3.1:
     "@rollup/plugin-node-resolve": ^11.0.1
     animejs: ^3.2.1
     eslint: ^7.22.0
-    lectorjs: latest
+    lectorjs: ^0.5.5
     mousetrap: ^1.6.5
     nodemon: ^2.0.7
     pragmajs: ^0.7.1
@@ -1776,15 +1776,15 @@ fsevents@~2.3.1:
   languageName: unknown
   linkType: soft
 
-"lectorjs@npm:latest":
-  version: 0.5.0-d
-  resolution: "lectorjs@npm:0.5.0-d"
+"lectorjs@npm:^0.5.5":
+  version: 0.5.5
+  resolution: "lectorjs@npm:0.5.5"
   dependencies:
     animejs: ^3.2.1
     compromise: ^13.7.0
     mousetrap: ^1.6.5
     pragmajs: latest
-  checksum: 9f6e86bb2e2680ff812d43ad9f6046e97fc0dd53b123ab3061b0962e97ef0133301650b1e999b8cac02c0f3107b45fc1d37370c4942fd3578a861702c94d16da
+  checksum: b1a7eaee04eca3df4142301db7199850288121ac85fc887664d8f305113a45f2b29255b2f0329fdb77ac96b609d0428c3995394375224b612971611b0ebdfacf
   languageName: node
   linkType: hard
 

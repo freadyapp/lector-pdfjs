@@ -111,6 +111,7 @@ function initateFromPdfUrl(url){
 
     let settings = {
         wfy: false,
+        onboarding: true,
 
         fullStyles: true,
         defaultStyles: true,
