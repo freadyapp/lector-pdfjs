@@ -1,14 +1,22 @@
 // import { Lector } from '../src'
 // import { Word } from "../src/lector"
 
+// const { lector } = require("../src")
+
 let _e = lectorPdf.pragma._e
 let _p = lectorPdf.pragma._p
 
 lectorPdf.lector.globalify()
+// lectorPdf.lector.PragmaConsole.intercept()
+pragmaSpace.dev = true
+// lectorPdf.lector.PragmaConsole.skip()
+//
+console.log('yoing')
 lectorPdf.injectStyles()
 
 let loader = lectorPdf.utilities.loader(1).appendTo(_e("[data-lector-target='loading']"))
 globalThis.pragmaSpace.integrateMousetrap(Mousetrap)
+
 let pdfs = {
   "algorythms": "https://freadypublic.s3.eu-central-1.amazonaws.com/Data+Structures+and+Algorithms+in+Java%2C+6th+Edition%2C+2014.pdf",
   "energy star": "https://freadypublic.s3.eu-central-1.amazonaws.com/ENERGY+STAR.pdf",
@@ -19,7 +27,6 @@ let pdfs = {
   "economics": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Modern+Principles+of+Economics+copy.pdf",
   "psopy psopy": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Organizational+Behaviour+17th+Edition.pdf",
   "test": "https://frengine.s3.eu-central-1.amazonaws.com/5747008a-c800-41c3-aaf5-1823abf2542f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIU7EN4763JEXYRUA%2F20210320%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20210320T230547Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=016f1786fa55c558f146d8c3ae04491d28547b580d4d3e372c7d8f9eb474bfe8"
-
 }
 
 let lectorController = _p().createEvent("create")
@@ -112,6 +119,7 @@ function initateFromPdfUrl(url){
     let settings = {
         wfy: false,
         onboarding: true,
+        scaler: true,
 
         fullStyles: true,
         defaultStyles: true,
@@ -210,6 +218,10 @@ function initateFromPdfUrl(url){
     // add code that remove the loader when the last page is reached
     lector.settings.on('load', value => {
       console.log('haha', value)
+    })
+
+    lector.settings.on('update', function() {
+      console.log(this.toObj())
     })
   })
 }

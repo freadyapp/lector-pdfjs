@@ -3,6 +3,7 @@ import { _e, _p, Pragma, util } from 'pragmajs'
 export { PDFViewer } from "./pdfLoader/index"
 import Mousetrap from 'mousetrap'
 
+
 function wfyInner(desc) {
     if (!desc) return false
     desc = _e(desc)
