@@ -45,12 +45,6 @@
         "dev": "nodemon -w 'src/' -e css,scss,js --exec python3 watchtower"
     },
     "dependencies": {
-        "animejs": "^3.2.1",
-        "lectorjs": "^0.5.9",
-        "mousetrap": "^1.6.5",
-        "pragmajs": "^0.7.1"
-    },
-    "resolutions": {
-        "lector-pdfjs": "portal:/Users/robo/Documents/Fready/lector-pdfjs"
+        "lectorjs": "^0.6.2"
     }
 }
