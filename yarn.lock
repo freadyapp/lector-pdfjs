@@ -1094,10 +1094,10 @@ latest-version@^5.0.0:
   dependencies:
     package-json "^6.3.0"
 
-lectorjs@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/lectorjs/-/lectorjs-0.6.2.tgz#3f23c3ec38163abe2a72905a40f0e997ee56aae7"
-  integrity sha512-p2BtqTngoaWEQ0rjukUbNHUmVuDFEra2mSOKC/NPqVPHerDMtNIYH+SHPsg8i/O1KlA6WbZSDt+lwmIQ0xP21g==
+lectorjs@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/lectorjs/-/lectorjs-0.7.0.tgz#86e1d8afca1bad57fc5cf0ebd7cbcc02e109194c"
+  integrity sha512-B0bRdpuT3F+8OgrICFu46671hpoKhTkVlQ/exarsd5bFFL+9XButwp/oiZzHd5Q8O3LOVOOvPOhWyW+lMCRUFA==
   dependencies:
     animejs "^3.2.1"
     compromise "^13.7.0"
