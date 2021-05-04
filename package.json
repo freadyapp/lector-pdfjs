@@ -45,6 +45,6 @@
         "dev": "nodemon -w 'src/' -e css,scss,js --exec python3 watchtower"
     },
     "dependencies": {
-        "lectorjs": "^0.7.0"
+        "lectorjs": "^0.9.3"
     }
 }
