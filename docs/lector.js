@@ -104,7 +104,7 @@ function initateFromPdfUrl(url){
     return new Promise(resolve => resolve(pageIndex))
   }
 
-  viewer.on('load', () => {
+  viewer.on('load', async () => {
 
     let settings = {
         wfy: false,
@@ -203,7 +203,7 @@ function initateFromPdfUrl(url){
         }
       }
 
-    let lector = Lector(".pdf-page", settings)
+    let lector = await Lector(".pdf-page", settings)
     console.log('loggin updates')
     console.log(lector.settings)
 
