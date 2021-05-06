@@ -1248,10 +1248,10 @@ latest-version@^5.0.0:
   dependencies:
     package-json "^6.3.0"
 
-lectorjs@^0.9.4:
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/lectorjs/-/lectorjs-0.9.4.tgz#eea15cb840d620b64617277c5c267ac2f6ac56f1"
-  integrity sha512-fBuS8b4dO6GHMnBOgrgFBobgrf8NLo0orTE9+CwY8f6/iVhi6ziMDfqjz5JyW7xn7Q4Jzr6h8QRCO3b99ijuCA==
+lectorjs@^0.9.5:
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/lectorjs/-/lectorjs-0.9.5.tgz#a9181bb4e34585e24a6711056dea491e885a0745"
+  integrity sha512-BcOrwzqNhoDoKWEB85NJL9wCYehgejIFRrW4/Oq4JduKA6jD7s/Wd69Ds3Ca5e9RvWRsD8/n1B1jdvSPpekbEw==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.13.0"
     "@rollup/plugin-babel" "^5.3.0"
