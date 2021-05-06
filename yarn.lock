@@ -541,9 +541,9 @@ commondir@^1.0.1:
   integrity sha1-3dgA2gxmEnOTzKWVDqloo6rxJTs=
 
 compromise@^13.7.0:
-  version "13.10.5"
-  resolved "https://registry.yarnpkg.com/compromise/-/compromise-13.10.5.tgz#163cc63869561a320c730d6b855c0adde16ff286"
-  integrity sha512-je5+lMKnQWmWfYZiO9IXtxWHr3KA4dQiyzVHsZskfNgGVHlSFK2sWreosoBYeRmP9/JrHiggSdDWE1lqPejvmA==
+  version "13.11.2"
+  resolved "https://registry.yarnpkg.com/compromise/-/compromise-13.11.2.tgz#4bc2dbe615fbc6d5c9f3cafe61327c61f427e10a"
+  integrity sha512-sAASylAtghacJm3tTIF2AyekjxNMGyWaIsQ3sDdJT1UcIa6mC7VbNLQBI3eSBitf+LwrvZTgrY1nWOetY4SScw==
   dependencies:
     efrt-unpack "2.2.0"
 
@@ -1248,10 +1248,10 @@ latest-version@^5.0.0:
   dependencies:
     package-json "^6.3.0"
 
-lectorjs@^0.9.3:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/lectorjs/-/lectorjs-0.9.3.tgz#505b5484e7cb5c065182623221bc94f7884adc4e"
-  integrity sha512-f6yF7RlN0A3yNzdbygS7wcNZatuUJ5ZB9XcwxwDsKyZeQTWpiCPFUuy4jB3J9WmwjRUGjSLT4pSRDdGmKi/+Bg==
+lectorjs@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/lectorjs/-/lectorjs-0.9.4.tgz#eea15cb840d620b64617277c5c267ac2f6ac56f1"
+  integrity sha512-fBuS8b4dO6GHMnBOgrgFBobgrf8NLo0orTE9+CwY8f6/iVhi6ziMDfqjz5JyW7xn7Q4Jzr6h8QRCO3b99ijuCA==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.13.0"
     "@rollup/plugin-babel" "^5.3.0"

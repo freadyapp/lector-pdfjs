@@ -1,6 +1,6 @@
 {
     "name": "lector-pdfjs",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "description": "Read pdfs like you're on aderall",
     "license": "CC0",
     "repository": "robo-monk/lector-pdfjs",
@@ -45,6 +45,6 @@
         "dev": "nodemon -w 'src/' -e css,scss,js --exec python3 watchtower"
     },
     "dependencies": {
-        "lectorjs": "^0.9.3"
+        "lectorjs": "^0.9.4"
     }
 }
