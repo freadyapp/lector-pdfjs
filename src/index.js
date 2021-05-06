@@ -14,7 +14,8 @@ function wfyInner(desc) {
     for (let txt of desc.textContent.split(" ")) {
         // console.log(txt)
         let noWhiteSpace = txt.replace(/\s/g, "")
-        inner += noWhiteSpace.length != 0 ? "<w>" + txt.split(" ").join("</w> <w>") + "</w> " : txt
+        // inner += noWhiteSpace.length != 0 ? "<w>" + txt.split(" ").join("</w> <w>") + "</w> " : txt
+        inner += noWhiteSpace.length != 0 ? "<w>" + txt.replaceAll(" ", "</w> <w>") + "</w> " : txt
     }
 
     desc.html(inner)

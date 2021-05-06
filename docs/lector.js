@@ -94,27 +94,17 @@ params.set("pdfName", pdfNameParam)
 function initateFromPdfUrl(url){
     
   let viewer = new lectorPdf.PDFViewer("#the-canvas")
-  Mousetrap.bind("o", () => viewer.scaleUp())
-  Mousetrap.bind("shift+o", () => viewer.scaleDown())
-
   // var url = "/docs/pdfs/dicks.pdf"
   // var url = "https://freadypublic.s3.eu-central-1.amazonaws.com/ENERGY+STAR.pdf"
-
   globalThis.pragmaSpace.onDocLoad(() =>{
     viewer.loadFromUrl(url)
   })
 
   function fetchContent(pageIndex){
     return new Promise(resolve => resolve(pageIndex))
-    // return new Promise(resolve => {
-    //   viewer.createPage(pageIndex).then(page => {
-    //     resolve(page.html())
-    //   })
-    // })
   }
 
-  viewer.on('load', () => {
-    console.log('view rendered')
+  viewer.on('load', async () => {
 
     let settings = {
         wfy: false,
@@ -138,6 +128,8 @@ function initateFromPdfUrl(url){
           config: {
             first: 1,
             last: viewer.pdf.numPages,
+            headspace: 5,
+            timeout: 500,
             onCreate: (p, index) => {
               //p.css("background lightgray")
               //console.log(p)
@@ -211,7 +203,7 @@ function initateFromPdfUrl(url){
         }
       }
 
-    let lector = Lector(".pdf-page", settings)
+    let lector = await Lector(".pdf-page", settings)
     console.log('loggin updates')
     console.log(lector.settings)
 
