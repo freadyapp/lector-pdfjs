@@ -59,7 +59,7 @@ export class PDFViewer extends Pragma {
     createPage(pageIndex){
         return new Promise(resolve => {
             this.pdf.getPage(pageIndex)
-                .then(page => {
+                .then(async page => {
                     var viewport = page.getViewport({ scale: resolution });
                     var pageDiv = _e(`div.#page-${page._pageIndex+1}`)
                                     .css("position: relative")
@@ -82,36 +82,71 @@ export class PDFViewer extends Pragma {
                       viewport: viewport
                     }
 
-                  // Render PDF page
-                    page.render(renderContext).promise.then(function () {
-                        return page.getTextContent() // Get text-fragments
-                    }).then(function (textContent) {
-                        // Create div which will hold text-fragments
-                        var textLayerDiv = _e("div.textLayer#")
 
-                        textLayerDiv.css(`
-                           transform-origin top left
-                           transform scale(${1/resolution})
-                        `)
+                    let textContent = await page.getTextContent()
 
-                        pageDiv.append(textLayerDiv)
+                    let textLayerDiv = _e('div.textLayer#')
+                                        .css(`transform-origin top left; transform scale(${1/resolution})`)
+                                        .appendTo(pageDiv)
 
-                        // Create new instance of TextLayerBuilder class
-                        var textLayer = new TextLayerBuilder({
-                            textLayerDiv: textLayerDiv,
-                            pageIndex: page.pageIndex,
-                            viewport: viewport
-                        });
-
-                        // Set text-fragments
-                        textLayer.setTextContent(textContent);
-
-                        // Render text-fragments
-                        textLayer.render();
-                        
-                        resolve(pageDiv)
-                      })
+                    let textLayer = new TextLayerBuilder({
+                        textLayerDiv,
+                        pageIndex: page.pageIndex,
+                        viewport,
+                        enhanceTextSelection: true,
                     })
+                  console.log('text layer', textLayer)
+
+                    textLayer.setTextContent(textContent)
+
+                      // Render text-fragments
+                    textLayer.render()
+                      
+
+                      //pragmaSpace.onDocLoad(() => {
+                        //resolve(pageDiv)
+                      //})
+
+                    await page.render(renderContext).promise
+                    console.log('resolved pageDiv', pageDiv.outerHTML)
+
+                    resolve(pageDiv)
+                  })
+
+                    //page.render(renderContext).promise.then(function () {
+                        //return page.getTextContent() // Get text-fragments
+                    //}).then(function (textContent) {
+
+                        //// Create div which will hold text-fragments
+                        //var textLayerDiv = _e("div.textLayer#")
+
+                        //textLayerDiv.css(`
+                           //transform-origin top left
+                           //transform scale(${1/resolution})
+                        //`)
+
+                        //pageDiv.append(textLayerDiv)
+
+                        //// Create new instance of TextLayerBuilder class
+                        //var textLayer = new TextLayerBuilder({
+                            //textLayerDiv,
+                            //pageIndex: page.pageIndex,
+                            //viewport
+                        //});
+
+                        //// Set text-fragments
+                        //textLayer.setTextContent(textContent)
+
+                        //// Render text-fragments
+                        //textLayer.render()
+                        
+                        //console.log('resolved pageDiv', pageDiv.outerHTML)
+
+                        //pragmaSpace.onDocLoad(() => {
+                          //resolve(pageDiv)
+                        //})
+                      //})
+                    //})
                 })
     }
 

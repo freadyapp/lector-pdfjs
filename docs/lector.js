@@ -91,6 +91,11 @@ console.log(pdfNameParam)
 params.set("pdfName", pdfNameParam)
 
 
+let pagePragmaMap = new Map // page
+const pragmaPageOf = i => pagePragmaMap.get(i) 
+const createPragmaPage = i => pagePragmaMap.set(i, _p(`page-${i}`))
+const destroyPragmaPage = i => pagePragmaMap.delete(i)
+
 function initateFromPdfUrl(url){
     
   let viewer = new lectorPdf.PDFViewer("#the-canvas")
@@ -108,7 +113,7 @@ function initateFromPdfUrl(url){
 
     let settings = {
         wfy: false,
-        onboarding: true,
+        onboarding: false,
         scaler: true,
 
         fullStyles: true,
@@ -116,6 +121,7 @@ function initateFromPdfUrl(url){
 
         settings: true,
         experimental: true,
+        debug: true,
 
         stream: fetchContent,
         // function with index as param that
@@ -131,6 +137,8 @@ function initateFromPdfUrl(url){
             headspace: 5,
             timeout: 500,
             onCreate: (p, index) => {
+              createPragmaPage(index)
+              console.log('[created]', index)
               //p.css("background lightgray")
               //console.log(p)
               p.addClass('lector-page', 'loading')
@@ -146,57 +154,68 @@ function initateFromPdfUrl(url){
     //     resolve(page.html())
     //   })   
               viewer.createPage(index).then(pdfPage => {
+                console.log('[page appended]', index)
                 p.append(pdfPage)
                 // loader.destroy()
                 p.removeClass('loading')
+
+                pragmaPageOf(index)
+                    .triggerEvent('render')
+                    .run(function() {
+                      this.rendered = true
+                    })
               })
+
               //_e('body').findAll('.textLayer').forEach(textLayer => lectorPdf.wfy(textLayer))
               p.self_activate = function () {
-                console.log('self activating', p)
+                console.log('[activating]', p.findAll('.textLayer'), p.word)
                 if (!p.word) {
-                  p.findAll('.textLayer').forEach(textLayer => lectorPdf.wfy(textLayer))
+                  console.log("[ no word ] activating.... ]")
+                  console.log(p.outerHTML)
+                  p.querySelectorAll('.textLayer')
+                    .forEach(textLayer => {
+                  //p.findAll('.textLayer')
+                    console.log(textLayer)
+                    lectorPdf.wfy(textLayer)
+                  })
                   p.word = lectorPdf.Word(p).setKey(index)
                   //// generate lector for the page
                   //lector.helpers.wfy(p)
                   //p.word = Word(p).setKey(index)
                   p.lec.addWord(p.word)
                   p.word.value = 0
-                  console.log("appended new page with key", p.word.key)
+                  console.log("[ make word]", p.word)
                 }
               }
 
               p.addEventListener('click', () => p.self_activate())
+
             },
 
             // onCreate: p => p.html("loading..."),
 
             onPageActive: (p, index) => {
-              p.onFetch(function () {
-                console.log('fetched', p)
-                // return onFetch(p)
+              pragmaPageOf(index)
+                .run(function() {
+                  const _fetch = () => {
+                    console.log('[after fetch]')
+                    if (p.active) {
+                      p.self_activate()
+                    }
+                  };
 
-                if (p.active) {
-                  p.self_activate()
-                }
+                  if (this.rendered) return _fetch()
 
-                //console.log(p)
-              })
+                  this.onNext('render', _fetch)
+                })
             },
 
-            //onPageInactive: p => {
-            //p.css('background gray')
-            ////if (p.word){ 
-            ////p.lec.removeWord(p.word.key)
-            ////p.word = p.word.destroy()
-            ////}
-            //},
-
-            onPageDestroy: p => {
+            onPageDestroy: (p, index) => {
+              destroyPragmaPage(index)
               if (p.word) {
-                //console.log('destroy', p.word.key)
+                console.log("[destroy]", index)
                 p.lec.removeWord(p.word.key)
                 p.word = p.word.destroy()
-                //console.log(p.lec)
               }
             }
           }
@@ -204,16 +223,13 @@ function initateFromPdfUrl(url){
       }
 
     let lector = await Lector(".pdf-page", settings)
-    console.log('loggin updates')
-    console.log(lector.settings)
-
     // add code that remove the loader when the last page is reached
-    lector.settings.on('load', value => {
-      console.log('haha', value)
-    })
+    //lector.settings.on('load', value => {
+      //console.log('haha', value)
+    //})
 
-    lector.settings.on('update', function() {
-      console.log(this.toObj())
-    })
+    //lector.settings.on('update', function() {
+      //console.log(this.toObj())
+    //})
   })
 }
