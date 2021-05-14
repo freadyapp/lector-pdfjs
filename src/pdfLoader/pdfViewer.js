@@ -5,29 +5,20 @@ import Mousetrap from 'mousetrap'
 
 import TextLayerBuilder from "../pdfjs/build/textLayer"
 
-
-//var url = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
-
-// Loaded via <script> tag, create shortcut to access PDF.js exports.
-
-// The workerSrc property shall be specified.
-
 let resolution = 4
 let scale = 1
+let enhanceTextSelection = false
 
 export class PDFViewer extends Pragma {
     constructor(element){
         super()
+
         this.as(element)
         this.scale = 1
 
         this.createEvents('load', 'render')
         
-        this.css(`
-            transform-origin top
-            transition all .08s ease
-        `
-        )
+        this.css('transform-origin top')
     }
 
     set scale(n){
@@ -63,7 +54,6 @@ export class PDFViewer extends Pragma {
                     var viewport = page.getViewport({ scale: resolution });
                     var pageDiv = _e(`div.#page-${page._pageIndex+1}`)
                                     .css("position: relative")
-                              //.appendTo(this)
 
                     var canvas = _e("canvas.").appendTo(pageDiv)
 
@@ -93,86 +83,24 @@ export class PDFViewer extends Pragma {
                         textLayerDiv,
                         pageIndex: page.pageIndex,
                         viewport,
-                        enhanceTextSelection: true,
+                        enhanceTextSelection,
                     })
-                  console.log('text layer', textLayer)
 
                     textLayer.setTextContent(textContent)
 
-                      // Render text-fragments
                     textLayer.render()
-                      
-
-                      //pragmaSpace.onDocLoad(() => {
-                        //resolve(pageDiv)
-                      //})
 
                     await page.render(renderContext).promise
-                    console.log('resolved pageDiv', pageDiv.outerHTML)
-
                     resolve(pageDiv)
                   })
-
-                    //page.render(renderContext).promise.then(function () {
-                        //return page.getTextContent() // Get text-fragments
-                    //}).then(function (textContent) {
-
-                        //// Create div which will hold text-fragments
-                        //var textLayerDiv = _e("div.textLayer#")
-
-                        //textLayerDiv.css(`
-                           //transform-origin top left
-                           //transform scale(${1/resolution})
-                        //`)
-
-                        //pageDiv.append(textLayerDiv)
-
-                        //// Create new instance of TextLayerBuilder class
-                        //var textLayer = new TextLayerBuilder({
-                            //textLayerDiv,
-                            //pageIndex: page.pageIndex,
-                            //viewport
-                        //});
-
-                        //// Set text-fragments
-                        //textLayer.setTextContent(textContent)
-
-                        //// Render text-fragments
-                        //textLayer.render()
-                        
-                        //console.log('resolved pageDiv', pageDiv.outerHTML)
-
-                        //pragmaSpace.onDocLoad(() => {
-                          //resolve(pageDiv)
-                        //})
-                      //})
-                    //})
                 })
     }
 
-    render(){
-       
-        console.log(`viewing pdf`, this.pdf)
-        let pages =[]
-        for (var i = 10; i <= 20; i++) {
-            pages.push(this.createPage(i))
-        }
-
-        console.log(pages)
-        let final = pages.length-1
-        pages.forEach((page, i) => page.then(data => {
-            console.log('appending yoing')
-            this.append(data)
-            if (i == final) this.triggerEvent('render')
-        }))
-    }
-    
     async loadAndRender(pdf){
         this.load(pdf)
     }
 
     async load(pdf){
-        //pdf is of type PDF or promise
         this._loading = true
 
         this.pdf = await pdf
@@ -182,18 +110,4 @@ export class PDFViewer extends Pragma {
         return this.pdf
     }
 }
-
-//var container = _p().as("#the-canvas")
-
-
-
-//loadPdf(url)
-  //.then(function(pdf) {
-    //// Get div#container and cache it for later use
-    ////container.css(`transform scale(${1/scale})`)
-
-    //// Loop from 1 to total_number_of_pages in PDF document
-    ////for (var i = 1; i <= pdf.numPages; i++) {
-    
-//})
 

@@ -1,17 +1,8 @@
-// import { Lector } from '../src'
-// import { Word } from "../src/lector"
-
-// const { lector } = require("../src")
-
 let _e = lectorPdf.pragma._e
 let _p = lectorPdf.pragma._p
 
 lectorPdf.lector.globalify()
-// lectorPdf.lector.PragmaConsole.intercept()
 pragmaSpace.dev = true
-// lectorPdf.lector.PragmaConsole.skip()
-//
-console.log('yoing')
 lectorPdf.injectStyles()
 
 let loader = lectorPdf.utilities.loader(1).appendTo(_e("[data-lector-target='loading']"))
@@ -73,7 +64,7 @@ let params = _p()
 
 
 lectorController.on("create", function(pdfName){
-  console.log('iniating pdf', pdfName)
+  console.log('[pdf]', pdfName)
   initateFromPdfUrl(pdfs[pdfName])
 })
 
@@ -83,11 +74,8 @@ params.on('paramsChange', function(params){
   lectorController.triggerEvent("create", params.pdfName)
 })
 
-// console.log(params.get('pdfName'))
 let pdfNameParam = params.get('pdfName')
-console.log(pdfNameParam)
 pdfNameParam = pdfNameParam || "algorythms"
-console.log(pdfNameParam)
 params.set("pdfName", pdfNameParam)
 
 
@@ -146,13 +134,6 @@ function initateFromPdfUrl(url){
             },
 
             onFetch: (p, index) => {
-              console.log('p has been fetched', index)
-              // let loader = lectorPdf.utilities.loader(1).appendTo(p)
-              // loader.style.opacity = '.5'
-
-    //   viewer.createPage(pageIndex).then(page => {
-    //     resolve(page.html())
-    //   })   
               viewer.createPage(index).then(pdfPage => {
                 console.log('[page appended]', index)
                 p.append(pdfPage)
@@ -166,22 +147,16 @@ function initateFromPdfUrl(url){
                     })
               })
 
-              //_e('body').findAll('.textLayer').forEach(textLayer => lectorPdf.wfy(textLayer))
               p.self_activate = function () {
-                console.log('[activating]', p.findAll('.textLayer'), p.word)
                 if (!p.word) {
                   console.log("[ no word ] activating.... ]")
-                  console.log(p.outerHTML)
                   p.querySelectorAll('.textLayer')
                     .forEach(textLayer => {
-                  //p.findAll('.textLayer')
-                    console.log(textLayer)
-                    lectorPdf.wfy(textLayer)
-                  })
+                      lectorPdf.wfy(textLayer)
+                    })
+
                   p.word = lectorPdf.Word(p).setKey(index)
-                  //// generate lector for the page
-                  //lector.helpers.wfy(p)
-                  //p.word = Word(p).setKey(index)
+
                   p.lec.addWord(p.word)
                   p.word.value = 0
                   console.log("[ make word]", p.word)
@@ -191,8 +166,6 @@ function initateFromPdfUrl(url){
               p.addEventListener('click', () => p.self_activate())
 
             },
-
-            // onCreate: p => p.html("loading..."),
 
             onPageActive: (p, index) => {
               pragmaPageOf(index)
