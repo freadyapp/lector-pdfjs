@@ -109,7 +109,9 @@ function initateFromPdfUrl(url){
 
         settings: true,
         experimental: true,
-        debug: true,
+        debug: false,
+
+        autoscroll: true,
 
         stream: fetchContent,
         // function with index as param that
@@ -206,3 +208,5 @@ function initateFromPdfUrl(url){
     //})
   })
 }
+
+
