@@ -75,6 +75,8 @@ export class PDFViewer extends Pragma {
 
                     let textContent = await page.getTextContent()
 
+                    let canvasOffset = canvas.offset()
+                  console.log('canvas offset is', canvasOffset)
                     let textLayerDiv = _e('div.textLayer#')
                                         .css(`transform-origin top left; transform scale(${1/resolution})`)
                                         .appendTo(pageDiv)
