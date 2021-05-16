@@ -1,36 +1,39 @@
+import { helpers } from "lectorjs"
 export { Lector, helpers, Word } from "lectorjs"
 import { _e, _p, Pragma, util } from 'pragmajs'
 export { PDFViewer } from "./pdfLoader/index"
 import Mousetrap from 'mousetrap'
 
+export const wfy = helpers.wfy
 
-function wfyInner(desc) {
-    if (!desc) return false
-    desc = _e(desc)
-    let txt = desc.textContent
-    if (txt.length === 0) return false
 
-    let inner = ""
-    for (let txt of desc.textContent.split(" ")) {
-        // console.log(txt)
-        let noWhiteSpace = txt.replace(/\s/g, "")
-        // inner += noWhiteSpace.length != 0 ? "<w>" + txt.split(" ").join("</w> <w>") + "</w> " : txt
-        inner += noWhiteSpace.length != 0 ? "<w>" + txt.replaceAll(" ", "</w> <w>") + "</w> " : txt
-    }
+//function wfyInner(desc) {
+    //if (!desc) return false
+    //desc = _e(desc)
+    //let txt = desc.textContent
+    //if (txt.length === 0) return false
 
-    desc.html(inner)
-}
+    //let inner = ""
+    //for (let txt of desc.textContent.split(" ")) {
+        //// console.log(txt)
+        //let noWhiteSpace = txt.replace(/\s/g, "")
+        //// inner += noWhiteSpace.length != 0 ? "<w>" + txt.split(" ").join("</w> <w>") + "</w> " : txt
+        //inner += noWhiteSpace.length != 0 ? "<w>" + txt.replaceAll(" ", "</w> <w>") + "</w> " : txt
+    //}
 
-export function wfyElement(element) {
-    element = _e(element)
-    let nodes = element.findAll("*")
-    if (nodes.length == 0) return wfyInner(element)
-    nodes.forEach(desc => wfyElement(desc))
-}
+    //desc.html(inner)
+//}
 
-export function wfy(element){
-  wfyElement(element)
-}
+//export function wfyElement(element) {
+    //element = _e(element)
+    //let nodes = element.findAll("*")
+    //if (nodes.length == 0) return wfyInner(element)
+    //nodes.forEach(desc => wfyElement(desc))
+//}
+
+//export function wfy(element){
+  //wfyElement(element)
+//}
 
 
 import css from "./styles/styles.json"

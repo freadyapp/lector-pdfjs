@@ -1,5 +1,6 @@
 import { _e, _p, Pragma } from 'pragmajs'
 import { PDF } from "./PDF"
+import { isTextBroken } from "../utilities/brokeDetector"
 
 import Mousetrap from 'mousetrap'
 
@@ -47,6 +48,21 @@ export class PDFViewer extends Pragma {
         return this.load(PDF.fromUrl(url))
     }
     
+    async getTextOfPage(pageIndex) {
+      let page = await this.pdf.getPage(pageIndex)
+      let content = await page.getTextContent()
+      
+      return {
+        get str() {
+          return content.items?.reduce((last, obj) => last + obj.str, "")
+        },
+
+        toString() {
+          return this.str
+        }
+      }
+    }
+
     createPage(pageIndex){
         return new Promise(resolve => {
             this.pdf.getPage(pageIndex)
@@ -74,9 +90,11 @@ export class PDFViewer extends Pragma {
 
 
                     let textContent = await page.getTextContent()
+                  //console.log('text content is', textContent.items.reduce((last, obj) => { return last + obj.str }, " "))
+                  //console.log(textContent)
 
                     let canvasOffset = canvas.offset()
-                  console.log('canvas offset is', canvasOffset)
+                    console.log('canvas offset is', canvasOffset)
                     let textLayerDiv = _e('div.textLayer#')
                                         .css(`transform-origin top left; transform scale(${1/resolution})`)
                                         .appendTo(pageDiv)
@@ -110,6 +128,59 @@ export class PDFViewer extends Pragma {
         this._loading = false
         this.triggerEvent('load')
         return this.pdf
+    }
+
+    getPage(i) {
+      let self = this
+       return ({
+        get index() {
+          return i
+        },
+        get text() {
+          return self.getTextOfPage(i)
+        }
+      })
+    }
+
+    get pages() {
+      return (function* (self){
+        for (let i = 1; i <= self.pdf.numPages; i += 1) {
+            yield self.getPage(i);
+        }
+        return self.pdf.numPages;
+      })(this)
+    }
+
+    async checkIfBroken(accuracy=20) {
+      console.log('evaluating if pdf is broken')
+      console.time('is pdf broken')
+      console.log('this pdf is', this.pdf)
+      let txt = await this.getTextOfPage(1)
+
+      console.log('thispages', this.pages)
+      function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+      }
+
+      accuracy = Math.min(accuracy, this.pdf.numPages)
+      const getRandomRange = () => {
+        let range = new Set()
+        for (let i = 0; i < accuracy; i++) {
+          range.add(getRandomInt(this.pdf.numPages)+1) 
+        }
+
+        return range
+      }
+      
+      console.log('random page range', getRandomRange())
+      for (let page of this.pages) {
+        let text = (await page.text).str
+        console.log('page text', page.index, text)
+        console.log('is text broken', isTextBroken(text))
+      };
+
+      console.timeEnd('is pdf broken')
+
     }
 }
 
