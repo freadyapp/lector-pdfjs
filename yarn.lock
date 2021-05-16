@@ -1478,7 +1478,14 @@ picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.2:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.2.2.tgz#21f333e9b6b8eaff02468f5146ea406d345f4dad"
   integrity sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
 
-pragmajs@^0.8.8:
+pragma-thread@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/pragma-thread/-/pragma-thread-0.0.4.tgz#b3b1b0757f281c068f0e0cde00897f300a7d27a8"
+  integrity sha512-xn8/C+Bzy1gNgLlTVmyDOYDRfNraYmyv94+Ciyml4etpn3Bq/OcUE4u1QgTWWnm31VeAK2d2UR3G/pQ0KpXeIA==
+  dependencies:
+    pragmajs "^0.8.4"
+
+pragmajs@^0.8.4, pragmajs@^0.8.8:
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/pragmajs/-/pragmajs-0.8.8.tgz#cf9e6dfb153b20af7d3438bcd340e876b5daca15"
   integrity sha512-omhgokKylDXioUUR+xqyiJ4bko1bG3HE+zESh2IvP8HHFyeyFdZfT4ii2DZrZiD/8+8FWNtNj0OERKj3+fX1DQ==

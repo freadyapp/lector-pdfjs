@@ -99,7 +99,7 @@ function initateFromPdfUrl(url){
   }
 
   viewer.on('load', async () => {
-    viewer.checkIfBroken().then(res => console.log('is pdf broken?', res ))
+    viewer.checkIfBroken(20, 0.5).then(res => console.log('is pdf broken?', res))
 
     let settings = {
         wfy: false,

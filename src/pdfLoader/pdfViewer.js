@@ -1,6 +1,6 @@
 import { _e, _p, Pragma } from 'pragmajs'
 import { PDF } from "./PDF"
-import { isTextBroken } from "../utilities/brokeDetector"
+import { textFuckery } from "../utilities/brokeDetector"
 
 import Mousetrap from 'mousetrap'
 
@@ -151,13 +151,10 @@ export class PDFViewer extends Pragma {
       })(this)
     }
 
-    async checkIfBroken(accuracy=20) {
+    async checkIfBroken(accuracy=20, threshold=0.5) {
       console.log('evaluating if pdf is broken')
-      console.time('is pdf broken')
-      console.log('this pdf is', this.pdf)
       let txt = await this.getTextOfPage(1)
 
-      console.log('thispages', this.pages)
       function getRandomInt(max) {
         return Math.floor(Math.random() * max);
       }
@@ -171,16 +168,19 @@ export class PDFViewer extends Pragma {
 
         return range
       }
-      
-      console.log('random page range', getRandomRange())
-      for (let page of this.pages) {
+
+      let range = getRandomRange()
+      console.log('range is', range)
+      let totalFuckery = 0
+      for (let index of range) {
+        let page = this.getPage(index)
+        //console.log('page is', page)
         let text = (await page.text).str
-        console.log('page text', page.index, text)
-        console.log('is text broken', isTextBroken(text))
+        totalFuckery += await textFuckery(text)
       };
 
       console.timeEnd('is pdf broken')
-
+      return totalFuckery/range.size > threshold
     }
 }
 

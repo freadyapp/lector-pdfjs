@@ -4,6 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var lectorjs = require('lectorjs');
 var pragmajs = require('pragmajs');
+var pragmaThread = require('pragma-thread');
 require('mousetrap');
 var anime = require('animejs');
 
@@ -15133,18 +15134,22 @@ class PDF {
     }
 }
 
-// return xE[0, 1] with 1 meaning the text is most likely NOT broken, and 0 being that there is only broken, or no text in the string
+const thr = pragmaThread._thread().define({
+        // return xE[0, 1] with 1 meaning the text is most likely NOT broken, and 0 being that there is only broken, or no text in the string
 
-function isTextBroken(txt) {
-  if (!txt) return 0
+    isTextFucked(txt) {
+      if (!txt) return 0
 
-  let invalids = 0;
-  for (let c of txt) {
-    if (c.charCodeAt(0) >= 30000) invalids += 1; 
-  }
-  return invalids/txt.length
-  //console.log('log invalid chars ratio', invalids/txt.length)
-  //return !txt || /[^\u0000-\u00ff]/.test(txt) 
+      let invalids = 0;
+      for (let c of txt) {
+        if (c.charCodeAt(0) >= 30000) invalids += 1; 
+      }
+      return invalids/txt.length
+    },
+}); 
+
+async function textFuckery(txt) {
+  return await thr.isTextFucked(txt)
 }
 
 /* Copyright 2012 Mozilla Foundation
@@ -15719,13 +15724,10 @@ class PDFViewer extends pragmajs.Pragma {
       })(this)
     }
 
-    async checkIfBroken(accuracy=20) {
+    async checkIfBroken(accuracy=20, threshold=0.5) {
       console.log('evaluating if pdf is broken');
-      console.time('is pdf broken');
-      console.log('this pdf is', this.pdf);
       await this.getTextOfPage(1);
 
-      console.log('thispages', this.pages);
       function getRandomInt(max) {
         return Math.floor(Math.random() * max);
       }
@@ -15739,15 +15741,18 @@ class PDFViewer extends pragmajs.Pragma {
 
         return range
       };
-      
-      console.log('random page range', getRandomRange());
-      for (let page of this.pages) {
+
+      let range = getRandomRange();
+      console.log('range is', range);
+      let totalFuckery = 0;
+      for (let index of range) {
+        let page = this.getPage(index);
+        //console.log('page is', page)
         let text = (await page.text).str;
-        console.log('page text', page.index, text);
-        console.log('is text broken', isTextBroken(text));
+        totalFuckery += await textFuckery(text);
       }
       console.timeEnd('is pdf broken');
-
+      return totalFuckery/range.size > threshold
     }
 }
 
