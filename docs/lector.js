@@ -87,6 +87,7 @@ const destroyPragmaPage = i => pagePragmaMap.delete(i)
 function initateFromPdfUrl(url){
     
   let viewer = new lectorPdf.PDFViewer("#the-canvas")
+  console.log('check if pdf is broken?')
   // var url = "/docs/pdfs/dicks.pdf"
   // var url = "https://freadypublic.s3.eu-central-1.amazonaws.com/ENERGY+STAR.pdf"
   globalThis.pragmaSpace.onDocLoad(() =>{
@@ -98,6 +99,7 @@ function initateFromPdfUrl(url){
   }
 
   viewer.on('load', async () => {
+    viewer.checkIfBroken(20, 0.5).then(res => console.log('is pdf broken?', res))
 
     let settings = {
         wfy: false,
@@ -109,7 +111,7 @@ function initateFromPdfUrl(url){
 
         settings: true,
         experimental: true,
-        debug: false,
+        debug: true,
 
         autoscroll: true,
 
