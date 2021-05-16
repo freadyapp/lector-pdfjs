@@ -180,7 +180,9 @@ export class PDFViewer extends Pragma {
       };
 
       console.timeEnd('is pdf broken')
-      return totalFuckery/range.size > threshold
+      const totalFuckeryIndex = totalFuckery/range.size
+      console.log('total fuckery index fund', totalFuckeryIndex)
+      return totalFuckeryIndex > threshold
     }
 }
 

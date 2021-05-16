@@ -15138,7 +15138,7 @@ const thr = pragmaThread._thread().define({
         // return xE[0, 1] with 1 meaning the text is most likely NOT broken, and 0 being that there is only broken, or no text in the string
 
     isTextFucked(txt) {
-      if (!txt) return 0
+      if (!txt) return 1
 
       let invalids = 0;
       for (let c of txt) {
@@ -15752,7 +15752,9 @@ class PDFViewer extends pragmajs.Pragma {
         totalFuckery += await textFuckery(text);
       }
       console.timeEnd('is pdf broken');
-      return totalFuckery/range.size > threshold
+      const totalFuckeryIndex = totalFuckery/range.size;
+      console.log('total fuckery index fund', totalFuckeryIndex);
+      return totalFuckeryIndex > threshold
     }
 }
 

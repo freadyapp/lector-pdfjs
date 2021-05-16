@@ -17,6 +17,7 @@ let pdfs = {
   "accounting": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Financial+Accounting.pdf",
   "economics": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Modern+Principles+of+Economics+copy.pdf",
   "psopy psopy": "https://freadypublic.s3.eu-central-1.amazonaws.com/pdfs/Organizational+Behaviour+17th+Edition.pdf",
+  "fucked": "https://freadypublic.s3.eu-central-1.amazonaws.com/Opendoor+1Q21+Transcript+for+Freedy+test+on+pdfs.pdf",
   "test": "https://frengine.s3.eu-central-1.amazonaws.com/5747008a-c800-41c3-aaf5-1823abf2542f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIU7EN4763JEXYRUA%2F20210320%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20210320T230547Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=016f1786fa55c558f146d8c3ae04491d28547b580d4d3e372c7d8f9eb474bfe8"
 }
 
@@ -99,7 +100,13 @@ function initateFromPdfUrl(url){
   }
 
   viewer.on('load', async () => {
-    viewer.checkIfBroken(20, 0.5).then(res => console.log('is pdf broken?', res))
+    viewer.checkIfBroken(20, 0.5).then(res => {
+      if (res){
+        alert('pdf seems to be broken')
+      } else {
+        console.log('pdf is fine')
+      }
+    })
 
     let settings = {
         wfy: false,
