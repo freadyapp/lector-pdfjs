@@ -179,19 +179,19 @@ function initateFromPdfUrl(url){
             },
 
             onPageActive: (p, index) => {
-              pragmaPageOf(index)
-                .run(function() {
-                  const _fetch = () => {
-                    console.log('[after fetch]')
-                    if (p.active) {
-                      p.self_activate()
-                    }
-                  };
+              // pragmaPageOf(index)
+              //   .run(function() {
+              //     const _fetch = () => {
+              //       console.log('[after fetch]')
+              //       if (p.active) {
+              //         // p.self_activate()
+              //       }
+              //     };
 
-                  if (this.rendered) return _fetch()
+              //     if (this.rendered) return _fetch()
 
-                  this.onNext('render', _fetch)
-                })
+              //     this.onNext('render', _fetch)
+              //   })
             },
 
             onPageDestroy: (p, index) => {
