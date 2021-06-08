@@ -1,14 +1,29 @@
 import { _e, _p, Pragma } from 'pragmajs'
 import { PDF } from "./PDF"
 import { textFuckery } from "../utilities/brokeDetector"
+import { _thread } from "pragma-thread"
 
 import Mousetrap from 'mousetrap'
 
 import TextLayerBuilder from "../pdfjs/build/textLayer"
 
-let resolution = 4
+let resolution = 1
 let scale = 1
 let enhanceTextSelection = false
+
+let _thr = _thread() // thread is a pragma
+  .on('execute', fn => {
+      console.time(fn)
+  })
+  .on('done', fn => {
+      console.timeEnd(fn)
+  })
+
+  _thr.define({
+    PDF() {
+      return PDF
+    },
+})
 
 export class PDFViewer extends Pragma {
     constructor(element){
@@ -67,37 +82,75 @@ export class PDFViewer extends Pragma {
         return new Promise(resolve => {
             this.pdf.getPage(pageIndex)
                 .then(async page => {
-                    var viewport = page.getViewport({ scale: resolution });
-                    var pageDiv = _e(`div.#page-${page._pageIndex+1}`)
-                                    .css("position: relative")
+                    console.time(`creating page ${page._pageIndex}`)
+                    // console.time(`creating view ${page._pageIndex}`)
+                    let viewport = page.getViewport({ scale: resolution });
+                    // console.timeEnd(`creating view ${page._pageIndex}`)
+                    // console.log('viewport is', viewport)
+                    // var pageDiv = _e(`div.#page-${page._pageIndex+1}`)
 
-                    var canvas = _e("canvas.").appendTo(pageDiv)
+                    // console.time(`creating html ${page._pageIndex}`)
+                    let pageDiv = document.createElement("div")
+                    pageDiv.id = `page-${page._pageIndex+1}`
+                    pageDiv.style.position = 'relative'
 
-                    var context = canvas.getContext('2d')
+                                    // .css("position: relative")
+
+                    // var pagedDiv = document.createElement("div")
+
+                    let canvas = document.createElement("canvas")
+                    pageDiv.appendChild(canvas)
+                    // var canvas = _e("canvas.").appendTo(pageDiv)
+
+                    let context = canvas.getContext('2d')
 
                     canvas.height = viewport.height
                     canvas.width = viewport.width
                     
-                    canvas.css(`
-                        width ${viewport.width/resolution}px
-                        height ${viewport.height/resolution}px
-                    `)
+                    // canvas.css(`
+                    //     width ${viewport.width/resolution}px
+                    //     height ${viewport.height/resolution}px
+                    // `)
+                    canvas.style.width = `${viewport.width/resolution}px`
+                    canvas.style.height = `${viewport.height/resolution}px`
 
                     var renderContext = {
                       canvasContext: context,
                       viewport: viewport
                     }
 
+                    // console.timeEnd(`creating html ${page._pageIndex}`)
+
+                    // console.time(`getting text ${page._pageIndex}`)
 
                     let textContent = await page.getTextContent()
+                    // console.timeEnd(`getting text ${page._pageIndex}`)
+                    // console.log(textContent)
+                    // console.time(`string ${page._pageIndex}`)
+                    // let textContentJSON = JSON.stringify(textContent)
+                    // console.log(textContentJSON)
+                    // console.timeEnd(`string ${page._pageIndex}`)
+
+                    // console.time(`parse ${page._pageIndex}`)
+                    // let textContentParse = JSON.parse(textContentJSON)
+                    // console.timeEnd(`parse ${page._pageIndex}`)
+                    // let textContentJSON = JSON.stringify(textContent)
+
                   //console.log('text content is', textContent.items.reduce((last, obj) => { return last + obj.str }, " "))
                   //console.log(textContent)
 
                     let canvasOffset = canvas.offset()
                     console.log('canvas offset is', canvasOffset)
-                    let textLayerDiv = _e('div.textLayer#')
-                                        .css(`transform-origin top left; transform scale(${1/resolution})`)
-                                        .appendTo(pageDiv)
+
+                    let textLayerDiv = document.createElement("div")
+                    textLayerDiv.classList.add('textLayer')
+                    textLayerDiv.style.transformOrigin = "top left"
+                    textLayerDiv.style.transform = `scale(${1/resolution})`
+                    pageDiv.appendChild(textLayerDiv)
+
+                    // let textLayerDiv = _e('div.textLayer#')
+                    //                     .css(`transform-origin top left; transform `)
+                    //                     .appendTo(pageDiv)
 
                     let textLayer = new TextLayerBuilder({
                         textLayerDiv,
@@ -112,6 +165,8 @@ export class PDFViewer extends Pragma {
 
                     await page.render(renderContext).promise
                     resolve(pageDiv)
+
+                    console.timeEnd(`creating page ${page._pageIndex}`)
                   })
                 })
     }
@@ -153,7 +208,9 @@ export class PDFViewer extends Pragma {
 
     async checkIfBroken(accuracy=20, threshold=0.5) {
       console.log('evaluating if pdf is broken')
-      let txt = await this.getTextOfPage(1)
+      console.time('is pdf broken')
+      // return false
+      // let txt = await this.getTextOfPage(1)
 
       function getRandomInt(max) {
         return Math.floor(Math.random() * max);
@@ -170,7 +227,6 @@ export class PDFViewer extends Pragma {
       }
 
       let range = getRandomRange()
-      console.log('range is', range)
       let totalFuckery = 0
       for (let index of range) {
         let page = this.getPage(index)

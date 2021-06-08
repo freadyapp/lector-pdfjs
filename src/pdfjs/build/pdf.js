@@ -3990,7 +3990,7 @@ const InternalRenderTask = function InternalRenderTaskClosure() {
     }
 
     _scheduleNext() {
-      if (this._useRequestAnimationFrame) {
+      if (false && this._useRequestAnimationFrame) {
         window.requestAnimationFrame(() => {
           this._nextBound().catch(this.cancel.bind(this));
         });

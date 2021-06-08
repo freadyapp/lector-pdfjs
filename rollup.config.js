@@ -3,6 +3,7 @@ import nodePolyfills from 'rollup-plugin-node-polyfills';
 import commonjs from '@rollup/plugin-commonjs';
 
 import { terser } from "rollup-plugin-terser"
+import strip from '@rollup/plugin-strip';
 
 import sizes from 'rollup-plugin-sizes';
 import json from '@rollup/plugin-json';
@@ -20,6 +21,9 @@ function ifProd(plug, params) {
 }
 
 const plugs = [
+  ifProd(strip, {
+      labels: ['unittest']
+    }),
   nodePolyfills(),
   ifProd(sizes),
   json(),
@@ -30,6 +34,7 @@ const plugs = [
   }),
 
   ifProd(terser), // mini
+  ifProd(strip),
 ]
 
 export default [

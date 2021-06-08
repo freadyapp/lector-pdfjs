@@ -5,7 +5,7 @@ lectorPdf.lector.globalify()
 pragmaSpace.dev = true
 lectorPdf.injectStyles()
 
-let loader = lectorPdf.utilities.loader(1).appendTo(_e("[data-lector-target='loading']"))
+// let loader = lectorPdf.utilities.loader(1).appendTo(_e("[data-lector-target='loading']"))
 globalThis.pragmaSpace.integrateMousetrap(Mousetrap)
 
 let pdfs = {
@@ -133,8 +133,8 @@ function initateFromPdfUrl(url){
           config: {
             first: 1,
             last: viewer.pdf.numPages,
-            headspace: 5,
-            timeout: 500,
+            headspace: 15,
+            timeout: 100,
             onCreate: (p, index) => {
               createPragmaPage(index)
               console.log('[created]', index)
@@ -163,6 +163,41 @@ function initateFromPdfUrl(url){
                   console.log("[ no word ] activating.... ]")
                   p.querySelectorAll('.textLayer')
                     .forEach(textLayer => {
+                      // textLayer.style.border = "1px soli"
+                      let previousTop = null
+                      let previousHeight = null
+                      let previousAccepted = false
+
+                      let tTop = textLayer.offset().top
+                      let tBot = tTop + textLayer.offsetHeight
+                      let padding = .07*textLayer.offsetHeight
+                      textLayer.querySelectorAll('span')
+                        .forEach(span => {
+                          // span.addEventListener('click', () => {
+                            let sTop = span.offset().top
+
+                            let sBot = sTop + span.offsetHeight
+
+                            // console.log(previousTop && previousHeight && (sTop - 1.1*previousHeight < previousTop))
+                            console.log((previousTop+previousHeight/2 < sTop), previousTop, sTop, previousHeight, span)
+
+
+                            if (
+                              (previousTop && !(previousTop+previousHeight/2 < sTop) && !previousAccepted) ||
+                              (sTop < tTop + padding ||
+                              sBot > tBot - padding) && (
+                               !(previousTop && previousHeight && (sTop - 1.1*previousHeight < previousTop))
+                            )) {
+                              span.classList.add("ignore")
+                              previousAccepted = false
+                            } else {
+                              previousAccepted = true
+                            }
+                            
+                            previousTop = sTop
+                            previousHeight = span.offsetHeight
+                          // })
+                        })
                       lectorPdf.wfy(textLayer)
                     })
 

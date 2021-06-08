@@ -13,6 +13,10 @@
 		white-space: pre;
 		cursor: text;
 		transform-origin: 0% 0%;
+		border: 1px solid green;
+		&.ignore {
+			border-color: red;
+		}
 	}
 	.highlight {
 		margin: -1px;

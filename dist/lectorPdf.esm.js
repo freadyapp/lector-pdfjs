@@ -3995,11 +3995,7 @@ const InternalRenderTask = function InternalRenderTaskClosure() {
     }
 
     _scheduleNext() {
-      if (this._useRequestAnimationFrame) {
-        window.requestAnimationFrame(() => {
-          this._nextBound().catch(this.cancel.bind(this));
-        });
-      } else {
+      {
         Promise.resolve().then(this._nextBound).catch(this.cancel.bind(this));
       }
     }
@@ -15555,8 +15551,22 @@ class TextLayerBuilder {
   }
 }
 
-let resolution = 4;
+let resolution = 1;
 let enhanceTextSelection = false;
+
+let _thr = _thread() // thread is a pragma
+  .on('execute', fn => {
+      console.time(fn);
+  })
+  .on('done', fn => {
+      console.timeEnd(fn);
+  });
+
+  _thr.define({
+    PDF() {
+      return PDF
+    },
+});
 
 class PDFViewer extends Pragma {
     constructor(element){
@@ -15615,37 +15625,75 @@ class PDFViewer extends Pragma {
         return new Promise(resolve => {
             this.pdf.getPage(pageIndex)
                 .then(async page => {
-                    var viewport = page.getViewport({ scale: resolution });
-                    var pageDiv = _e(`div.#page-${page._pageIndex+1}`)
-                                    .css("position: relative");
+                    console.time(`creating page ${page._pageIndex}`);
+                    // console.time(`creating view ${page._pageIndex}`)
+                    let viewport = page.getViewport({ scale: resolution });
+                    // console.timeEnd(`creating view ${page._pageIndex}`)
+                    // console.log('viewport is', viewport)
+                    // var pageDiv = _e(`div.#page-${page._pageIndex+1}`)
 
-                    var canvas = _e("canvas.").appendTo(pageDiv);
+                    // console.time(`creating html ${page._pageIndex}`)
+                    let pageDiv = document.createElement("div");
+                    pageDiv.id = `page-${page._pageIndex+1}`;
+                    pageDiv.style.position = 'relative';
 
-                    var context = canvas.getContext('2d');
+                                    // .css("position: relative")
+
+                    // var pagedDiv = document.createElement("div")
+
+                    let canvas = document.createElement("canvas");
+                    pageDiv.appendChild(canvas);
+                    // var canvas = _e("canvas.").appendTo(pageDiv)
+
+                    let context = canvas.getContext('2d');
 
                     canvas.height = viewport.height;
                     canvas.width = viewport.width;
                     
-                    canvas.css(`
-                        width ${viewport.width/resolution}px
-                        height ${viewport.height/resolution}px
-                    `);
+                    // canvas.css(`
+                    //     width ${viewport.width/resolution}px
+                    //     height ${viewport.height/resolution}px
+                    // `)
+                    canvas.style.width = `${viewport.width/resolution}px`;
+                    canvas.style.height = `${viewport.height/resolution}px`;
 
                     var renderContext = {
                       canvasContext: context,
                       viewport: viewport
                     };
 
+                    // console.timeEnd(`creating html ${page._pageIndex}`)
+
+                    // console.time(`getting text ${page._pageIndex}`)
 
                     let textContent = await page.getTextContent();
+                    // console.timeEnd(`getting text ${page._pageIndex}`)
+                    // console.log(textContent)
+                    // console.time(`string ${page._pageIndex}`)
+                    // let textContentJSON = JSON.stringify(textContent)
+                    // console.log(textContentJSON)
+                    // console.timeEnd(`string ${page._pageIndex}`)
+
+                    // console.time(`parse ${page._pageIndex}`)
+                    // let textContentParse = JSON.parse(textContentJSON)
+                    // console.timeEnd(`parse ${page._pageIndex}`)
+                    // let textContentJSON = JSON.stringify(textContent)
+
                   //console.log('text content is', textContent.items.reduce((last, obj) => { return last + obj.str }, " "))
                   //console.log(textContent)
 
                     let canvasOffset = canvas.offset();
                     console.log('canvas offset is', canvasOffset);
-                    let textLayerDiv = _e('div.textLayer#')
-                                        .css(`transform-origin top left; transform scale(${1/resolution})`)
-                                        .appendTo(pageDiv);
+
+                    let textLayerDiv = document.createElement("div");
+                    textLayerDiv.classList.add('textLayer');
+                    textLayerDiv.style.transformOrigin = "top left";
+                    textLayerDiv.style.transform = `scale(${1/resolution})`;
+                    pageDiv.appendChild(textLayerDiv);
+
+                    // let textLayerDiv = _e('div.textLayer#')
+                    //                     .css(`transform-origin top left; transform `)
+                    //                     .appendTo(pageDiv)
 
                     let textLayer = new TextLayerBuilder({
                         textLayerDiv,
@@ -15660,6 +15708,8 @@ class PDFViewer extends Pragma {
 
                     await page.render(renderContext).promise;
                     resolve(pageDiv);
+
+                    console.timeEnd(`creating page ${page._pageIndex}`);
                   });
                 })
     }
@@ -15701,7 +15751,9 @@ class PDFViewer extends Pragma {
 
     async checkIfBroken(accuracy=20, threshold=0.5) {
       console.log('evaluating if pdf is broken');
-      await this.getTextOfPage(1);
+      console.time('is pdf broken');
+      // return false
+      // let txt = await this.getTextOfPage(1)
 
       function getRandomInt(max) {
         return Math.floor(Math.random() * max);
@@ -15718,7 +15770,6 @@ class PDFViewer extends Pragma {
       };
 
       let range = getRandomRange();
-      console.log('range is', range);
       let totalFuckery = 0;
       for (let index of range) {
         let page = this.getPage(index);
@@ -15735,7 +15786,7 @@ class PDFViewer extends Pragma {
 
 undefined = globalThis.pdfWorkerSrc || '//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.worker.min.js';
 
-var basic = "@charset \"utf-8\";.textLayer{position:absolute;left:0;top:0;right:0;bottom:0;mix-blend-mode:darken}.textLayer>span{color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0 0}.textLayer .highlight{margin:-1px;padding:1px;background-color:#b400aa;border-radius:4px}.textLayer .highlight.begin{border-radius:4px 0 0 4px}.textLayer .highlight.end{border-radius:0 4px 4px 0}.textLayer .highlight.middle{border-radius:0}.textLayer .highlight.selected{background-color:darkgreen}.textLayer::selection{background:#00f}.textLayer .endOfContent{display:block;position:absolute;left:0;top:100%;right:0;bottom:0;z-index:-1;cursor:default;user-select:none}.textLayer .endOfContent.active{top:0}";
+var basic = "@charset \"utf-8\";.textLayer{position:absolute;left:0;top:0;right:0;bottom:0;mix-blend-mode:darken}.textLayer>span{color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0 0;border:1px solid green}.textLayer>span.ignore{border-color:red}.textLayer .highlight{margin:-1px;padding:1px;background-color:#b400aa;border-radius:4px}.textLayer .highlight.begin{border-radius:4px 0 0 4px}.textLayer .highlight.end{border-radius:0 4px 4px 0}.textLayer .highlight.middle{border-radius:0}.textLayer .highlight.selected{background-color:darkgreen}.textLayer::selection{background:#00f}.textLayer .endOfContent{display:block;position:absolute;left:0;top:100%;right:0;bottom:0;z-index:-1;cursor:default;user-select:none}.textLayer .endOfContent.active{top:0}";
 var default_theme = "@charset \"utf-8\";body{background:#161616}.viewer-rapper{width:100%;display:flex;align-items:center;justify-content:center;flex-direction:column}.pdf-page{display:flex;align-items:center;justify-content:center;min-height:400px;min-width:400px}.lector-page{border-radius:3px}.lector-page.loading{width:100%;height:600px;margin:50px 0;background:rgba(255,255,255,0.077);display:flex;align-items:center;justify-content:center}.pragma-loader{margin:auto;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;width:40px;height:40px}.pragma-loader div{width:10px;height:10px;border:1px solid #FFF;background-color:#FFF}.word-element{mix-blend-mode:darken !important}";
 var css = {
 	basic: basic,
@@ -15830,128 +15881,13 @@ var index = /*#__PURE__*/Object.freeze({
   loader: loader
 });
 
+// import Mousetrap from 'mousetrap'
+
 const wfy = helpers.wfy;
 function injectStyles(functional=true, themeName='default'){
   if (functional) util.addStyles(css.basic, 'lectorjs-pdf-functional');
   let theme = themeName && css[`${themeName}_theme`];
   if (theme) util.addStyles(theme, `lectorjs-pdf-${themeName}-theme`);
 }
-
-//var pdfDoc = null,
-    //pageNum = 1,
-    //pageRendering = false,
-    //pageNumPending = null,
-    //scale = 2,
-    //canvas = document.getElementById('the-canvas'),
-    //ctx = canvas.getContext('2d');
-
-/**
- * Get page info from document, resize canvas accordingly, and render page.
- * @param num Page number.
- */
-//function renderPage(num) {
-  //pageRendering = true;
-  //// Using promise to fetch the page
-  //pdfDoc.getPage(num).then(function(page) {
-    //var viewport = page.getViewport({scale: scale});
-    //canvas.height = viewport.height;
-    //canvas.width = viewport.width;
-
-    //// Render PDF page into canvas context
-    //var renderContext = {
-      //canvasContext: ctx,
-      //viewport: viewport
-    //};
-
-    //var renderTask = page.render(renderContext);
-
-    //// Wait for rendering to finish
-    //renderTask.promise.then(function() {
-      //pageRendering = false;
-      //if (pageNumPending !== null) {
-        //// New page rendering is pending
-        //renderPage(pageNumPending);
-        //pageNumPending = null;
-      //}
-    //}).then(function () {
-        //// Get text-fragments
-        //return page.getTextContent();
-    //})
-        //.then(function (textContent) {
-            //console.log(textContent)
-            //// Create div which will hold text-fragments
-            //var textLayerDiv = document.createElement("div");
-
-            //// Set it's class to textLayer which have required CSS styles
-            //textLayerDiv.setAttribute("class", "textLayer");
-
-            //// Append newly created div in `div#page-#{pdf_page_number}`
-            //div.appendChild(textLayerDiv);
-
-            //// Create new instance of TextLayerBuilder class
-            //var textLayer = new TextLayerBuilder({
-                //textLayerDiv: textLayerDiv,
-                //pageIndex: page.pageIndex,
-                //viewport: viewport
-            //});
-
-            //// Set text-fragments
-            //textLayer.setTextContent(textContent);
-
-            //// Render text-fragments
-            //textLayer.render();
-        //});;
-  //});
-
-  //// Update page counters
-  //document.getElementById('page_num').textContent = num;
-//}
-
-/**
- * If another page rendering in progress, waits until the rendering is
- * finised. Otherwise, executes rendering immediately.
- */
-//function queueRenderPage(num) {
-  //if (pageRendering) {
-    //pageNumPending = num;
-  //} else {
-    //renderPage(num);
-  //}
-//}
-
-/**
- * Displays previous page.
- */
-//function onPrevPage() {
-  //if (pageNum <= 1) {
-    //return;
-  //}
-  //pageNum--;
-  //queueRenderPage(pageNum);
-//}
-//document.getElementById('prev').addEventListener('click', onPrevPage);
-
-/**
- * Displays next page.
- */
-//function onNextPage() {
-  //if (pageNum >= pdfDoc.numPages) {
-    //return;
-  //}
-  //pageNum++;
-  //queueRenderPage(pageNum);
-//}
-//document.getElementById('next').addEventListener('click', onNextPage);
-
-/**
- * Asynchronously downloads PDF.
- */
-//pdf.getDocument(url).promise.then(function(pdfDoc_) {
-  //pdfDoc = pdfDoc_;
-  //document.getElementById('page_count').textContent = pdfDoc.numPages;
-
-  //// Initial/first page rendering
-  //renderPage(pageNum);
-//});
 
 export { PDFViewer, injectStyles, index as utilities, wfy };
